@@ -8,9 +8,7 @@ public abstract class Parser {
 		this.tokenizer = tokenizer;
 	}
 
-	public Parser(Parser parent) {
-		this(parent.tokenizer());
-	}
+
 
 	public Tokenizer tokenizer() {
 		return tokenizer;

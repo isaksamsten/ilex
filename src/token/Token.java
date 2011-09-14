@@ -44,6 +44,10 @@ public class Token {
 		return type;
 	}
 
+	public boolean eof() {
+		return false;
+	}
+
 	public void extract() throws IOException {
 		text = String.valueOf(source().current());
 		value = null;

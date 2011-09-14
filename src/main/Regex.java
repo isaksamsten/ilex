@@ -3,7 +3,7 @@ package main;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Regex extends God {
+public class Regex extends IObject {
 	private Pattern pattern;
 
 	public Regex(String pattern) {

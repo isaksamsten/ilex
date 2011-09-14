@@ -2,7 +2,7 @@ package parser;
 
 import java.io.IOException;
 
-import main.Keyword;
+import main.IKeyword;
 
 import token.EofToken;
 import token.ErrorCode;
@@ -29,7 +29,7 @@ public class IlexTokenizer extends Tokenizer {
 			token = new EofToken(source());
 		} else if (Character.isLetter(currentChar)) {
 			token = new WordToken(source());
-		} else if (currentChar == Keyword.START
+		} else if (currentChar == IKeyword.START
 				&& Character.isLetter(source().peek())) {
 			token = new KeywordToken(source());
 		} else if (TokenType.isSpecial(String.valueOf(currentChar))) {

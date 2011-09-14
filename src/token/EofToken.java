@@ -9,6 +9,11 @@ public class EofToken extends Token {
 	}
 
 	@Override
+	public boolean eof() {
+		return true;
+	}
+
+	@Override
 	public void extract() {
 		// EoFtoken
 	}

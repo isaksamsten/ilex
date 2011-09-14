@@ -40,8 +40,8 @@ public class MessageHandler {
 	public void error(Token token, ErrorCode code) {
 		errors++;
 		for (ParseListener l : listeners.getListeners(ParseListener.class)) {
-			l.error(token.line(), token.position(), token.text(),
-					code.description(), errors > MAX_ERRORS);
+			l.error(token.line(), token.position(), token.text(), code
+					.description(), errors > MAX_ERRORS);
 		}
 	}
 
@@ -63,5 +63,9 @@ public class MessageHandler {
 		for (ParseListener l : listeners.getListeners(ParseListener.class)) {
 			l.error(0, 0, "", "FATAL: " + errorCode.description(), true);
 		}
+	}
+
+	public void fatal(ErrorCode code) {
+		fatal(code, null);
 	}
 }

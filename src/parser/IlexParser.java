@@ -21,6 +21,10 @@ public class IlexParser extends Parser {
 		super(tokenizer);
 	}
 
+	public IlexParser(Parser parent) {
+		this(parent.tokenizer());
+	}
+
 	@Override
 	public void parse() {
 		long elapsed = System.currentTimeMillis();

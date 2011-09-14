@@ -2,7 +2,7 @@ package token;
 
 import java.io.IOException;
 
-import main.Keyword;
+import main.IKeyword;
 
 import parser.Source;
 
@@ -23,7 +23,7 @@ public class KeywordToken extends Token {
 		}
 
 		type = TokenType.OBJECT;
-		value = Keyword.get(word.toString());
+		value = IKeyword.get(word.toString());
 		text = word.toString();
 	}
 

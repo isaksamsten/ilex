@@ -8,20 +8,21 @@ import java.util.Set;
 public enum TokenType {
 	IDENTIFIER, INTEGER, DOUBLE, ERROR, OBJECT,
 
-	RETURN, METHOD,
+	RETURN, FUNCTION,
 
 	PLUS("+"), MINUS("-"), STAR("*"), SLASH("/"), LEFT_BRACE("{"), RIGHT_BRACE(
-			"}"), EQUAL("="), SEMI_COLON(";"), LEFT_PAREN("("), RIGHT_PAREN(")");
+			"}"), EQUAL("="), SEMI_COLON(";"), AMPERSAND("&"), LEFT_PAREN("("), RIGHT_PAREN(
+			")"), LEFT_BRACKET("["), RIGHT_BRACKET("]");
 
 	private static Set<String> reserved = new HashSet<String>();
 	private static Map<String, TokenType> special = new HashMap<String, TokenType>();
 	static {
 		TokenType[] tokens = TokenType.values();
-		for (int i = RETURN.ordinal(); i <= METHOD.ordinal(); i++) {
+		for (int i = RETURN.ordinal(); i <= FUNCTION.ordinal(); i++) {
 			reserved.add(tokens[i].text());
 		}
 
-		for (int i = PLUS.ordinal(); i <= RIGHT_PAREN.ordinal(); i++) {
+		for (int i = PLUS.ordinal(); i <= RIGHT_BRACKET.ordinal(); i++) {
 			special.put(tokens[i].text(), tokens[i]);
 		}
 	}

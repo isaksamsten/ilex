@@ -1,28 +1,23 @@
-package token;
+package token.plog;
 
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public enum TokenType {
-	IDENTIFIER, INTEGER, DOUBLE, ERROR, OBJECT,
+import token.ITokenType;
 
-	RETURN, FUNCTION,
+public enum TokenType implements ITokenType {
+	IDENTIFIER, NUMBER, DOUBLE, ERROR,
 
-	PLUS("+"), MINUS("-"), STAR("*"), SLASH("/"), LEFT_BRACE("{"), RIGHT_BRACE(
-			"}"), EQUAL("="), SEMI_COLON(";"), AMPERSAND("&"), LEFT_PAREN("("), RIGHT_PAREN(
-			")"), LEFT_BRACKET("["), RIGHT_BRACKET("]");
+	PLUS("+"), MINUS("-"), STAR("*"), SLASH("/"), GT(">"), LT("<"), EQUAL("="), GTE(
+			">="), GTL("<="), COLON(":");
 
 	private static Set<String> reserved = new HashSet<String>();
 	private static Map<String, TokenType> special = new HashMap<String, TokenType>();
 	static {
 		TokenType[] tokens = TokenType.values();
-		for (int i = RETURN.ordinal(); i <= FUNCTION.ordinal(); i++) {
-			reserved.add(tokens[i].text());
-		}
-
-		for (int i = PLUS.ordinal(); i <= RIGHT_BRACKET.ordinal(); i++) {
+		for (int i = PLUS.ordinal(); i <= GTL.ordinal(); i++) {
 			special.put(tokens[i].text(), tokens[i]);
 		}
 	}

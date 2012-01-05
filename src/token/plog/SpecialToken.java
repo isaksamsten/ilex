@@ -1,8 +1,9 @@
-package token;
+package token.plog;
 
 import java.io.IOException;
 
 import parser.Source;
+import token.Token;
 
 public class SpecialToken extends Token {
 

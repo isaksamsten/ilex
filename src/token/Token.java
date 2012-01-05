@@ -3,6 +3,7 @@ package token;
 import java.io.IOException;
 
 import parser.Source;
+import token.plog.TokenType;
 
 public class Token {
 

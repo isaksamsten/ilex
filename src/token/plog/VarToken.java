@@ -1,12 +1,13 @@
-package token;
+package token.plog;
 
 import java.io.IOException;
 
 import parser.Source;
+import token.Token;
 
-public class WordToken extends Token {
+public class VarToken extends Token {
 
-	public WordToken(Source source) {
+	public VarToken(Source source) {
 		super(source);
 	}
 

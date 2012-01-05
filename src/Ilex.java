@@ -7,13 +7,13 @@ import java.io.IOException;
 import message.MessageHandler;
 import message.ParseListener;
 import message.SourceListener;
-
 import parser.BufferedSource;
-import parser.IlexParser;
-import parser.IlexTokenizer;
 import parser.Parser;
 import parser.Source;
 import parser.Tokenizer;
+import parser.plog.PlogParser;
+import parser.plog.PlogTokenizer;
+import parser.tree.Tree;
 import token.Token;
 
 public class Ilex {
@@ -67,10 +67,9 @@ public class Ilex {
 					});
 
 			Source source = new BufferedSource(new File("test.ilex"));
-			Tokenizer tokenizer = new IlexTokenizer(source);
-			Parser parser = new IlexParser(tokenizer);
-
-			parser.parse();
+			Tokenizer tokenizer = new PlogTokenizer(source);
+			Parser<Tree> parser = new PlogParser(tokenizer);
+			Tree tree = parser.parse();
 
 			System.out.println("\t************ Stack ************");
 			System.out.println("\tLevel: "

@@ -1,9 +1,11 @@
-package token;
+package token.plog;
 
 import java.io.IOException;
 import java.math.BigInteger;
 
 import parser.Source;
+import token.ErrorCode;
+import token.Token;
 
 public class NumberToken extends Token {
 
@@ -25,14 +27,14 @@ public class NumberToken extends Token {
 		text = builder.toString();
 		try {
 			if (builder.indexOf(".") > -1) {
-				type = TokenType.DOUBLE;
+				type = TokenType.NUMBER;
 				value = Double.parseDouble(text);
 			} else {
-				type = TokenType.INTEGER;
+				type = TokenType.NUMBER;
 				try {
 					value = Long.parseLong(text);
 				} catch (Exception e) {
-					if (type == TokenType.INTEGER) {
+					if (type == TokenType.NUMBER) {
 						value = new BigInteger(text);
 					}
 				}

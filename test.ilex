@@ -1,9 +1,12 @@
+# Calculate the nth Fibonacci number
+#
 begin
-	u := 0
-	v := 1
-	t := 0
-	i := 2
-	read nth
+    u := 0
+    v := 1
+    t := 0
+    i := 2
+    read nth
+    
     while i < nth + 1
     begin
     	t := u + v

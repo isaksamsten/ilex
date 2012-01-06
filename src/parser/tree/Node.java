@@ -1,6 +1,8 @@
 package parser.tree;
 
-public class Node implements Cloneable {
+import interpreter.plog.Visitor;
+
+public abstract class Node implements Cloneable {
 
 	private int line = 0;
 
@@ -12,8 +14,14 @@ public class Node implements Cloneable {
 		return this.line;
 	}
 
+	public String toTreeString() {
+		return toString();
+	}
+
 	@Override
 	public String toString() {
-		return "[node " + getClass().getSimpleName() + " at: " + line + "]";
+		return "[" + getClass().getSimpleName() + " at: " + line + "]";
 	}
+
+	public abstract Object visit(Visitor visitor);
 }

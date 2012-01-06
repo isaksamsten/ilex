@@ -16,7 +16,7 @@ import token.plog.VarToken;
 public class PlogTokenizer extends Tokenizer {
 
 	public PlogTokenizer(Source source) {
-		super(source);
+		super(source, '#');
 	}
 
 	@Override

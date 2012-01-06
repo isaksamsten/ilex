@@ -22,7 +22,7 @@ public class VarToken extends Token {
 		}
 
 		text = textBuilder.toString();
-		value = null;
+		value = text;
 		type = TokenType.isReserved(text) ? TokenType.valueOf(text
 				.toUpperCase()) : TokenType.IDENTIFIER;
 	}

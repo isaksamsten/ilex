@@ -1,10 +1,11 @@
 package parser.tree.plog;
 
+import interpreter.plog.Visitor;
 import parser.tree.Node;
 
 public class ExprNode extends Node {
 
-	private NumNode lhs;
+	private TermNode lhs;
 	private String operator;
 	private ExprNode rhs;
 
@@ -12,11 +13,11 @@ public class ExprNode extends Node {
 		super(line);
 	}
 
-	public NumNode lhs() {
+	public TermNode lhs() {
 		return lhs;
 	}
 
-	public void lhs(NumNode lhs) {
+	public void lhs(TermNode lhs) {
 		this.lhs = lhs;
 	}
 
@@ -34,6 +35,19 @@ public class ExprNode extends Node {
 
 	public void rhs(ExprNode rhs) {
 		this.rhs = rhs;
+	}
+
+	@Override
+	public String toTreeString() {
+		return "(" + toString() + " operator='"
+				+ (operator() != null ? operator() : "none") + "' lhs="
+				+ lhs.toTreeString() + " rhs="
+				+ (rhs != null ? rhs.toTreeString() : "none") + ")";
+	}
+
+	@Override
+	public Object visit(Visitor visitor) {
+		return visitor.visitExpr(this);
 	}
 
 }

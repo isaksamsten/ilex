@@ -2,6 +2,8 @@ package parser;
 
 import java.io.IOException;
 
+import message.MessageHandler;
+
 import token.Token;
 
 public abstract class Tokenizer {
@@ -10,8 +12,9 @@ public abstract class Tokenizer {
 	private Token current;
 	private char startComment;
 
-	public Tokenizer(Source source) {
+	public Tokenizer(Source source, char comment) {
 		this.source = source;
+		this.startComment = comment;
 	}
 
 	public Source source() {
@@ -24,6 +27,7 @@ public abstract class Tokenizer {
 
 	public Token next() throws IOException {
 		current = extract();
+		MessageHandler.getInstance().token(current);
 		return current;
 	}
 

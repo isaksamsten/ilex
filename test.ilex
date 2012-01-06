@@ -1,1 +1,15 @@
-isak := 1
+begin
+	u := 0
+	v := 1
+	t := 0
+	i := 2
+	read nth
+    while i < nth + 1
+    begin
+    	t := u + v
+		u := v
+		v := t
+		i := i + 1
+	end
+	write v
+end

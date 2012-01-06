@@ -2,21 +2,23 @@ package parser;
 
 import java.io.IOException;
 
-import message.MessageHandler;
-
 import parser.tree.Node;
+
+import message.MessageHandler;
 import token.ErrorCode;
 import token.Token;
 
 public abstract class Parser<TNode> {
 
 	private Tokenizer tokenizer;
+	private int startLine = 0;
 
 	public Parser(Tokenizer tokenizer) {
 		this.tokenizer = tokenizer;
+		this.startLine = tokenizer().source().line();
 	}
 
-	public Parser(Parser parent) {
+	public Parser(Parser<?> parent) {
 		this(parent.tokenizer());
 	}
 
@@ -24,9 +26,32 @@ public abstract class Parser<TNode> {
 		return tokenizer;
 	}
 
-	protected void error(Token token, ErrorCode code) {
-		MessageHandler.getInstance().error(token, code);
+	public int startLine() {
+		return startLine;
 	}
 
-	public abstract TNode parse() throws IOException;
+	public boolean errors() {
+		return MessageHandler.getInstance().errors() > 0;
+	}
+
+	protected void error(Token token, ErrorCode code) {
+		if (token.eof()) {
+			MessageHandler.getInstance().error(token, ErrorCode.PREMATURE_EOF);
+		} else {
+			MessageHandler.getInstance().error(token, code);
+		}
+	}
+
+	public TNode parse() throws IOException {
+		return parse(tokenizer().next());
+	}
+
+	/**
+	 * 
+	 * @param t
+	 * @return a {@link Node} if parse was successful, otherwise null
+	 * @throws IOException
+	 */
+	public abstract TNode parse(Token t) throws IOException;
+
 }

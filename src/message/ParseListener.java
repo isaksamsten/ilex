@@ -5,7 +5,7 @@ import java.util.EventListener;
 import token.Token;
 
 public interface ParseListener extends EventListener {
-	void summary(long took, int errorCount);
+	void parserSummary(long took, int errorCount);
 
 	void token(Token token);
 

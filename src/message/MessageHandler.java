@@ -25,9 +25,9 @@ public class MessageHandler {
 
 	}
 
-	public void summary(long took) {
+	public void parserSummary(long took) {
 		for (ParseListener l : listeners.getListeners(ParseListener.class)) {
-			l.summary(took, errors);
+			l.parserSummary(took, errors);
 		}
 	}
 
@@ -39,10 +39,17 @@ public class MessageHandler {
 
 	public void error(Token token, ErrorCode code) {
 		errors++;
+		if(errors > MAX_ERRORS) {
+			fatal(ErrorCode.TO_MANY_ERRORS);
+		}
 		for (ParseListener l : listeners.getListeners(ParseListener.class)) {
 			l.error(token.line(), token.position(), token.text(), code
 					.description(), errors > MAX_ERRORS);
 		}
+	}
+	
+	public int errors() {
+		return errors;
 	}
 
 	public void line(int num, String line) {

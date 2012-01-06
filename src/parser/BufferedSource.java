@@ -14,6 +14,7 @@ public class BufferedSource implements Source {
 
 	private int lineNum = 0;
 	private int current = -1;
+	private int eofCurrent = current;
 
 	public BufferedSource(File file) throws IOException {
 		in = new BufferedReader(new FileReader(file));
@@ -50,6 +51,7 @@ public class BufferedSource implements Source {
 	@Override
 	public char current() throws IOException {
 		if (line == null) {
+			current = eofCurrent - 2;
 			return EOF;
 		} else if (current == -1 || current == line.length()) {
 			return EOL;
@@ -63,6 +65,7 @@ public class BufferedSource implements Source {
 
 	private void readLine() throws IOException {
 		line = in.readLine();
+		eofCurrent = current;
 		current = -1;
 		if (line != null) {
 			lineNum++;

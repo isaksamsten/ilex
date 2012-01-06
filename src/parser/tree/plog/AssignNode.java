@@ -1,8 +1,8 @@
 package parser.tree.plog;
 
-import parser.tree.Node;
+import interpreter.plog.Visitor;
 
-public class AssignNode extends Node {
+public class AssignNode extends StmtNode {
 	private VarNode var;
 	private ExprNode expr;
 
@@ -26,4 +26,16 @@ public class AssignNode extends Node {
 		this.expr = expr;
 	}
 
+	@Override
+	public String toTreeString() {
+		String tree = "(" + toString() + " var=" + var.toTreeString()
+				+ " expr=" + expr.toTreeString() + ")";
+
+		return tree;
+	}
+
+	@Override
+	public Object visit(Visitor visitor) {
+		return visitor.visitAssign(this);
+	}
 }

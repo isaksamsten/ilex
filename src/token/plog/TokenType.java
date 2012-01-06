@@ -8,22 +8,26 @@ import java.util.Set;
 import token.ITokenType;
 
 public enum TokenType implements ITokenType {
-	IDENTIFIER, NUMBER, DOUBLE, ERROR,
+	IDENTIFIER, NUMBER, END_OF_FILE, READ, WRITE, WHILE, BEGIN, END, ERROR,
 
-	PLUS("+"), MINUS("-"), STAR("*"), SLASH("/"), GT(">"), LT("<"), EQUAL("="), GTE(
-			">="), GTL("<="), COLON(":");
+	PLUS("+"), MINUS("-"), STAR("*"), SLASH("/"), GT(">"), LT("<"), EQUAL("="), COLON(
+			":");
 
 	private static Set<String> reserved = new HashSet<String>();
 	private static Map<String, TokenType> special = new HashMap<String, TokenType>();
 	static {
 		TokenType[] tokens = TokenType.values();
-		for (int i = PLUS.ordinal(); i <= GTL.ordinal(); i++) {
+		for (int i = PLUS.ordinal(); i <= COLON.ordinal(); i++) {
 			special.put(tokens[i].text(), tokens[i]);
+		}
+
+		for (int i = READ.ordinal(); i <= END.ordinal(); i++) {
+			reserved.add(tokens[i].text().toLowerCase());
 		}
 	}
 
 	public static boolean isReserved(String str) {
-		return reserved.contains(str);
+		return reserved.contains(str.toLowerCase());
 	}
 
 	public static boolean isSpecial(String str) {

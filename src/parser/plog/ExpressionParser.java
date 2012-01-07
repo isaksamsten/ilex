@@ -47,7 +47,7 @@ public class ExpressionParser extends Parser<ExprNode> {
 				node.rhs(rhsNode);
 			}
 		} else {
-			error(token, ErrorCode.INVALID_CHARACTER);
+			error(token, ErrorCode.INVALID_EXPR);
 		}
 
 		return node;

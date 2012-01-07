@@ -51,7 +51,7 @@ public class BufferedSource implements Source {
 	@Override
 	public char current() throws IOException {
 		if (line == null) {
-			current = eofCurrent - 2;
+			current = eofCurrent;
 			return EOF;
 		} else if (current == -1 || current == line.length()) {
 			return EOL;

@@ -33,14 +33,14 @@ public class StatementListParser extends Parser<StmtListNode> {
 				stmtList.add(node);
 				token = tokenizer().current();
 			}
-			
-			if(token.type() != TokenType.END) {
-				error(token, ErrorCode.INVALID_END_OF_STATEMENT_LIST);
+
+			if (token.type() != TokenType.END) {
+				error(token, ErrorCode.UNEXPECTED_END_OF_STATEMENT_LIST);
 			} else {
 				tokenizer().next();
 			}
 		} else {
-			error(token, ErrorCode.INVALID_START_OF_STATEMENT);
+			error(token, ErrorCode.UNEXPECTED_START_OF_STATEMENT);
 		}
 
 		return stmtList;

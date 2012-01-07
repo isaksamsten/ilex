@@ -23,30 +23,31 @@ import token.Token;
 
 public class Ilex {
 
+	private static String file = "";
 	private static Map<Integer, String> source = new HashMap<Integer, String>();
-
 	private static ParseListener errorListener = new ParseAdapter() {
 		@Override
 		public void error(int line, int pos, String text, String error,
 				boolean fatal) {
 			if (fatal) {
 				MessageHandler.getInstance().parserSummary(0);
-				// System.exit(-1);
+				System.exit(-1);
 			}
 			StringBuilder builder = new StringBuilder();
-			for (int n = 0; n < pos + 4; n++) {
+			builder.append(" File '" + file + "', line " + line + "\n");
+			builder.append(" " + source.get(line) + "\n");
+			for (int n = 0; n < pos + 1; n++) {
 				builder.append(' ');
 			}
 			builder.append("^\n*** ");
 			builder.append(error);
-			builder.append(" at [");
+			builder.append(" At [");
 			if (text != null) {
-				builder.append(text + " ");
+				builder.append("'" + text + "' ");
 			}
 			builder.append(line + ":" + pos);
 			builder.append("]");
 
-			System.out.println(source.get(line));
 			System.out.println(builder.toString());
 		}
 	};
@@ -74,6 +75,8 @@ public class Ilex {
 
 	public static void main(String[] args) {
 		try {
+			args = new String[] { "test.ilex" };
+
 			MessageHandler.getInstance().addParseListener(errorListener);
 			MessageHandler.getInstance().addSourceListener(
 					new SourceListener() {
@@ -88,9 +91,9 @@ public class Ilex {
 			if (arguments.contains("--summary")) {
 				MessageHandler.getInstance().addParseListener(parseSummary);
 			}
-			
-			Source source = new BufferedSource(new File(arguments.get(arguments
-					.size() - 1)));
+
+			file = arguments.get(arguments.size() - 1);
+			Source source = new BufferedSource(new File(file));
 			Tokenizer tokenizer = new PlogTokenizer(source);
 
 			Parser<Tree> parser = new PlogParser(tokenizer);

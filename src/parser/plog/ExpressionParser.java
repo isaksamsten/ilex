@@ -31,9 +31,9 @@ public class ExpressionParser extends Parser<ExprNode> {
 
 			TermNode term = new TermNode(token.line());
 			if (token.type() == TokenType.NUMBER) {
-				term.set(new NumNode(token.line(), (Number) token.value()));
+				term.value(new NumNode(token.line(), (Number) token.value()));
 			} else {
-				term.set(new VarNode(token.line(), token.text()));
+				term.value(new VarNode(token.line(), token.text()));
 			}
 
 			node.lhs(term);
@@ -47,7 +47,7 @@ public class ExpressionParser extends Parser<ExprNode> {
 				node.rhs(rhsNode);
 			}
 		} else {
-			error(token, ErrorCode.INVALID_EXPR);
+			error(ErrorCode.INVALID_EXPR);
 		}
 
 		return node;

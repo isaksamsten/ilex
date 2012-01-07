@@ -25,7 +25,7 @@ public class WriteParser extends Parser<WriteNode> {
 			node = new WriteNode(startLine());
 			node.expr(expr);
 		} else {
-			error(tokenizer().current(), ErrorCode.INVALID_WRITE);
+			error(ErrorCode.INVALID_WRITE);
 		}
 
 		return node;

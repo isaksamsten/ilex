@@ -32,10 +32,10 @@ public class AssignmentParser extends Parser<AssignNode> {
 				ExprNode expr = exprParser.parse(token);
 				node.expr(expr);
 			} else {
-				error(token, ErrorCode.INVALID_ASSIGN);
+				error(ErrorCode.INVALID_ASSIGN);
 			}
 		} else {
-			error(token, ErrorCode.INVALID_ASSIGN);
+			error(ErrorCode.INVALID_ASSIGN);
 		}
 		return node;
 	}

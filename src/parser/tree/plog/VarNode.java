@@ -1,23 +1,22 @@
 package parser.tree.plog;
 
 import interpreter.plog.Visitor;
-import parser.tree.Node;
 
-public class VarNode extends Node {
-	private String value;
+public class VarNode extends TermNode {
+	private String var;
 
-	public VarNode(int line, String value) {
+	public VarNode(int line, String var) {
 		super(line);
-		this.value = value;
+		this.var = var;
 	}
 
-	public String value() {
-		return this.value;
+	public String var() {
+		return this.var;
 	}
 
 	@Override
 	public String toTreeString() {
-		return "(" + toString() + " value='" + value + "')";
+		return "(" + toString() + " value='" + var + "')";
 	}
 
 	@Override

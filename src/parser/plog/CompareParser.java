@@ -40,13 +40,13 @@ public class CompareParser extends Parser<CompNode> {
 				if (expr != null) {
 					node.rhs(expr);
 				} else {
-					error(token, ErrorCode.INVALID_EXPR);
+					error(ErrorCode.INVALID_EXPR);
 				}
 			} else {
-				error(token, ErrorCode.UNEXPECTED_OPERATOR);
+				error(ErrorCode.UNEXPECTED_OPERATOR);
 			}
 		} else {
-			error(token, ErrorCode.INVALID_EXPR);
+			error(ErrorCode.INVALID_EXPR);
 		}
 
 		return node;

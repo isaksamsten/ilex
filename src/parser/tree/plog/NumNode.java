@@ -1,9 +1,8 @@
 package parser.tree.plog;
 
 import interpreter.plog.Visitor;
-import parser.tree.Node;
 
-public class NumNode extends Node {
+public class NumNode extends TermNode {
 
 	private Number number;
 

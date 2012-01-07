@@ -28,7 +28,7 @@ public class ReadParser extends Parser<ReadNode> {
 			
 			tokenizer().next(); // consume identifier
 		} else {
-			error(token, ErrorCode.INVALID_READ);
+			error(ErrorCode.INVALID_READ);
 		}
 
 		return node;

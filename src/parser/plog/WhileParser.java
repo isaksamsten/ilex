@@ -35,11 +35,11 @@ public class WhileParser extends Parser<WhileNode> {
 			if (statementListNode != null) {
 				node.statementList(statementListNode);
 			} else {
-				error(tokenizer().current(), ErrorCode.WHILE_NO_BODY);
+				error(ErrorCode.WHILE_NO_BODY);
 			}
 
 		} else {
-			error(token, ErrorCode.EXPECTED_COMPARE);
+			error(ErrorCode.EXPECTED_COMPARE);
 		}
 
 		return node;

@@ -13,7 +13,7 @@ public enum ErrorCode {
 			"While need a body."), INVALID_WRITE(
 			"Unexpected argument to write."), UNEXPECTED_OPERATOR(
 			"Unexpected operator."), EXPECTED_COMPARE("Expected an comparsion."), EXPECTED_STATEMENT_LIST(
-			"Expected 'begin' 'end'.");
+			"Expected 'begin' 'end'."), EXPECTED_BEGIN("Expected 'begin'.");
 
 	private String desc;
 

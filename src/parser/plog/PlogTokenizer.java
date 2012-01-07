@@ -10,6 +10,7 @@ import token.ErrorToken;
 import token.Token;
 import token.plog.NumberToken;
 import token.plog.SpecialToken;
+import token.plog.StringToken;
 import token.plog.TokenType;
 import token.plog.VarToken;
 
@@ -32,6 +33,8 @@ public class PlogTokenizer extends Tokenizer {
 			token = new SpecialToken(source());
 		} else if (Character.isDigit(currentChar)) {
 			token = new NumberToken(source());
+		} else if (currentChar == StringToken.STRING) {
+			throw new UnsupportedOperationException("String token not yet implemented.");
 		} else {
 			token = new ErrorToken(source(), ErrorCode.INVALID_CHARACTER,
 					String.valueOf(currentChar));

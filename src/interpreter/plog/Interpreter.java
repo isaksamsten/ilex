@@ -90,7 +90,7 @@ public class Interpreter extends Visitor {
 
 	@Override
 	public Object visitVar(VarNode n) {
-		return n.value();
+		return n.var();
 	}
 
 	@Override
@@ -131,15 +131,15 @@ public class Interpreter extends Visitor {
 
 	@Override
 	public Object visitTerm(TermNode n) {
-		if (n.isNumber()) {
-			return visit(n.number());
+		Object value = visit(n.value());
+		if (value instanceof Number) {
+			return value;
 		} else {
-			String var = (String) visit(n.var());
-			TableEntry entry = stack.lookup(var);
+			TableEntry entry = stack.lookup((String) value);
 			if (entry != null)
 				return entry.getAttribute(TableKey.CONSTANT);
 			else
-				throw new IntepreterException("Var '" + var
+				throw new IntepreterException("Var '" + value
 						+ "' not initialized");
 		}
 	}

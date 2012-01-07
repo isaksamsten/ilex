@@ -6,7 +6,7 @@ begin
   t := 0
   i := 2
   read nth
-  
+
   if nth > 1
    begin
      write 123

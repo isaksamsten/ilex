@@ -26,6 +26,8 @@ public class StatementParser extends Parser<StmtNode> {
 			parser = new StatementListParser(this);
 		} else if (token.type() == TokenType.WHILE) {
 			parser = new WhileParser(this);
+		} else if (token.type() == TokenType.IF) {
+			
 		}
 
 		if (parser != null) {

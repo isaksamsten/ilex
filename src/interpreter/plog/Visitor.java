@@ -6,6 +6,7 @@ import parser.tree.Node;
 import parser.tree.plog.AssignNode;
 import parser.tree.plog.CompNode;
 import parser.tree.plog.ExprNode;
+import parser.tree.plog.IfNode;
 import parser.tree.plog.NumNode;
 import parser.tree.plog.ReadNode;
 import parser.tree.plog.StmtListNode;
@@ -46,5 +47,7 @@ public abstract class Visitor {
 	public abstract Object visitRead(ReadNode n);
 
 	public abstract Object visitWrite(WriteNode n);
+	
+	public abstract Object visitIf(IfNode n);
 
 }

@@ -31,15 +31,15 @@ public class WhileParser extends Parser<WhileNode> {
 			token = tokenizer().current();
 			StatementListParser slp = new StatementListParser(this);
 			StmtListNode statementListNode = slp.parse(token);
-			
-			if(statementListNode != null) {
+
+			if (statementListNode != null) {
 				node.statementList(statementListNode);
 			} else {
 				error(tokenizer().current(), ErrorCode.WHILE_NO_BODY);
 			}
 
 		} else {
-			error(token, ErrorCode.INVALID_CHARACTER);
+			error(token, ErrorCode.EXPECTED_COMPARE);
 		}
 
 		return node;

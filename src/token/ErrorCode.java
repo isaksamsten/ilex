@@ -11,7 +11,8 @@ public enum ErrorCode {
 			"Unexpected end of statment list."), TO_MANY_ERRORS(
 			"To many errors."), INVALID_EXPR("Invalid expression."), WHILE_NO_BODY(
 			"While need a body."), INVALID_WRITE(
-			"Unexpected argument to write."), UNEXPECTED_OPERATOR("Unexpected operator.");
+			"Unexpected argument to write."), UNEXPECTED_OPERATOR(
+			"Unexpected operator."), EXPECTED_COMPARE("Expected an comparsion.");
 
 	private String desc;
 

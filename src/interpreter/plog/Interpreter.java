@@ -8,6 +8,7 @@ import interpreter.TableKey;
 import parser.tree.plog.AssignNode;
 import parser.tree.plog.CompNode;
 import parser.tree.plog.ExprNode;
+import parser.tree.plog.IfNode;
 import parser.tree.plog.NumNode;
 import parser.tree.plog.ReadNode;
 import parser.tree.plog.StmtListNode;
@@ -140,5 +141,11 @@ public class Interpreter extends Visitor {
 				throw new IntepreterException("Var '" + var
 						+ "' not initialized");
 		}
+	}
+
+	@Override
+	public Object visitIf(IfNode n) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

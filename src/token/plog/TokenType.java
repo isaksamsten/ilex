@@ -10,14 +10,14 @@ import token.ITokenType;
 public enum TokenType implements ITokenType {
 	IDENTIFIER, NUMBER, END_OF_FILE, READ, WRITE, WHILE, BEGIN, END, ERROR,
 
-	PLUS("+"), MINUS("-"), STAR("*"), SLASH("/"), GT(">"), LT("<"), EQUAL("="), COLON(
-			":");
+	PLUS("+"), MINUS("-"), STAR("*"), SLASH("/"), GT(">"), LT("<"), GTE(">="), LTE(
+			"<="), EQUAL("="), COLON(":"), COLON_EQUAL(":=");
 
 	private static Set<String> reserved = new HashSet<String>();
 	private static Map<String, TokenType> special = new HashMap<String, TokenType>();
 	static {
 		TokenType[] tokens = TokenType.values();
-		for (int i = PLUS.ordinal(); i <= COLON.ordinal(); i++) {
+		for (int i = PLUS.ordinal(); i <= COLON_EQUAL.ordinal(); i++) {
 			special.put(tokens[i].text(), tokens[i]);
 		}
 

@@ -13,10 +13,25 @@ public class SpecialToken extends Token {
 
 	@Override
 	public void extract() throws IOException {
-		text = String.valueOf(source().current());
-		type = TokenType.special(text);
+		char current = source().current();
+		char next = source().peek();
+		if (current == '<' && next == '=') {
+			next = source().next();
+			text = current + "" + next;
+			type = TokenType.special(text);
+		} else if (current == '>' && next == '=') {
+			next = source().next();
+			text = current + "" + next;
+			type = TokenType.special(text);
+		} else if (current == ':' && next == '=') {
+			next = source().next();
+			text = current + "" + next;
+			type = TokenType.special(text);
+		} else {
+			text = String.valueOf(source().current());
+			type = TokenType.special(text);
+		}
 		value = text;
-
 		source().next();
 	}
 

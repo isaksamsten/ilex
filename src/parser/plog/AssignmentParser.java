@@ -25,8 +25,7 @@ public class AssignmentParser extends Parser<AssignNode> {
 			node.var(new VarNode(token.line(), (String) token.value()));
 
 			token = tokenizer().next();
-			if (token.type() == TokenType.COLON
-					&& (token = tokenizer().next()).type() == TokenType.EQUAL) {
+			if (token.type() == TokenType.COLON_EQUAL) {
 				token = tokenizer().next();
 
 				ExpressionParser exprParser = new ExpressionParser(this);

@@ -42,6 +42,10 @@ public class Interpreter extends Visitor {
 			return a.intValue() == ((Number) b).intValue();
 		} else if (op.equals("LT")) {
 			return a.intValue() < ((Number) b).intValue();
+		} else if (op.equals("LTE")) {
+			return a.intValue() <= ((Number) b).intValue();
+		} else if (op.equals("GTE")) {
+			return a.intValue() >= ((Number) b).intValue();
 		} else {
 			return a.intValue() > ((Number) b).intValue();
 		}
@@ -133,7 +137,8 @@ public class Interpreter extends Visitor {
 			if (entry != null)
 				return entry.getAttribute(TableKey.CONSTANT);
 			else
-				throw new IntepreterException("Var '" + var + "' not initialized");
+				throw new IntepreterException("Var '" + var
+						+ "' not initialized");
 		}
 	}
 }

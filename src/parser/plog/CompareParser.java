@@ -13,7 +13,7 @@ import token.plog.TokenType;
 public class CompareParser extends Parser<CompNode> {
 
 	private EnumSet<TokenType> compareOps = EnumSet.of(TokenType.GT,
-			TokenType.LT, TokenType.EQUAL);
+			TokenType.LT, TokenType.LTE, TokenType.GTE, TokenType.EQUAL);
 
 	public CompareParser(Parser<?> parent) {
 		super(parent);

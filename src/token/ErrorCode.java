@@ -12,7 +12,8 @@ public enum ErrorCode {
 			"To many errors."), INVALID_EXPR("Invalid expression."), WHILE_NO_BODY(
 			"While need a body."), INVALID_WRITE(
 			"Unexpected argument to write."), UNEXPECTED_OPERATOR(
-			"Unexpected operator."), EXPECTED_COMPARE("Expected an comparsion.");
+			"Unexpected operator."), EXPECTED_COMPARE("Expected an comparsion."), EXPECTED_STATEMENT_LIST(
+			"Expected 'begin' 'end'.");
 
 	private String desc;
 

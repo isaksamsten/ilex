@@ -1,10 +1,11 @@
 package interpreter.plog;
 
-import java.util.Scanner;
-
 import interpreter.Stack;
 import interpreter.TableEntry;
 import interpreter.TableKey;
+
+import java.util.Scanner;
+
 import parser.tree.plog.AssignNode;
 import parser.tree.plog.CompNode;
 import parser.tree.plog.ExprNode;
@@ -21,7 +22,7 @@ public class Interpreter extends Visitor {
 
 	private static final Stack stack = Stack.getInstance();
 	private static final Scanner in = new Scanner(System.in);
-
+	
 	private int calculate(Number a, Object b, String op) {
 		if (b == null)
 			return a.intValue();
@@ -145,7 +146,13 @@ public class Interpreter extends Visitor {
 
 	@Override
 	public Object visitIf(IfNode n) {
-		// TODO Auto-generated method stub
+		boolean compare = (Boolean) visit(n.compare());
+		if(compare) {
+			visit(n.trueStmt());
+		} else {
+			visit(n.falseStmt());
+		}
+		
 		return null;
 	}
 }

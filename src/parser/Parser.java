@@ -41,6 +41,10 @@ public abstract class Parser<TNode> {
 			MessageHandler.getInstance().error(token, code);
 		}
 	}
+	
+	protected void error(ErrorCode code) {
+		error(tokenizer().current(), code);
+	}
 
 	public TNode parse() throws IOException {
 		return parse(tokenizer().next());

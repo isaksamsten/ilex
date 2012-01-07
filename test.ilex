@@ -7,6 +7,16 @@ begin
   i := 2
   read nth
   
+  if nth > 1
+   begin
+     write 123
+   end
+  else
+   begin
+     write 321
+   end
+  
+  
   while i <= nth
    begin
      t := u + v

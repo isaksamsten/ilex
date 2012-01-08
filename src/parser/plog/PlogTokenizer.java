@@ -34,7 +34,7 @@ public class PlogTokenizer extends Tokenizer {
 		} else if (Character.isDigit(currentChar)) {
 			token = new NumberToken(source());
 		} else if (currentChar == StringToken.STRING) {
-			throw new UnsupportedOperationException("String token not yet implemented.");
+			token = new StringToken(source());
 		} else {
 			token = new ErrorToken(source(), ErrorCode.INVALID_CHARACTER,
 					String.valueOf(currentChar));

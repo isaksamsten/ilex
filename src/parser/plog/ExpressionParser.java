@@ -5,9 +5,10 @@ import java.util.EnumSet;
 
 import parser.Parser;
 import parser.tree.plog.ExprNode;
+import parser.tree.plog.LookupVarNode;
 import parser.tree.plog.NumNode;
+import parser.tree.plog.StringNode;
 import parser.tree.plog.TermNode;
-import parser.tree.plog.VarNode;
 import token.ErrorCode;
 import token.Token;
 import token.plog.TokenType;
@@ -26,14 +27,17 @@ public class ExpressionParser extends Parser<ExprNode> {
 		ExprNode node = null;
 		if (token.type() == TokenType.NUMBER
 				|| (token.type() == TokenType.IDENTIFIER && !TokenType
-						.isReserved(token.text()))) {
+						.isReserved(token.text()))
+				|| token.type() == TokenType.STRING) {
 			node = new ExprNode(tokenizer().source().line());
 
 			TermNode term = new TermNode(token.line());
 			if (token.type() == TokenType.NUMBER) {
-				term.value(new NumNode(token.line(), (Number) token.value()));
+				term.term(new NumNode(token.line(), (Number) token.value()));
+			} else if (token.type() == TokenType.STRING) {
+				term.term(new StringNode(token.line(), (String) token.value()));
 			} else {
-				term.value(new VarNode(token.line(), token.text()));
+				term.term(new LookupVarNode(token.line(), token.text()));
 			}
 
 			node.lhs(term);

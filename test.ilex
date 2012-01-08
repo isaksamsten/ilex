@@ -6,6 +6,7 @@ begin
   t := 0
   i := 2
   read nth
+  aha := "isak\n"
 
   if nth > 1
    begin
@@ -14,6 +15,7 @@ begin
   else
    begin
      write 321
+     write "\n"
    end
   
   
@@ -24,5 +26,7 @@ begin
      v := t
      i := i + 1
    end
+  write "fib:"
   write v
+  
 end

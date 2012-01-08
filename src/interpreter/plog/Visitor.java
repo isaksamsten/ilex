@@ -7,9 +7,11 @@ import parser.tree.plog.AssignNode;
 import parser.tree.plog.CompNode;
 import parser.tree.plog.ExprNode;
 import parser.tree.plog.IfNode;
+import parser.tree.plog.LookupVarNode;
 import parser.tree.plog.NumNode;
 import parser.tree.plog.ReadNode;
 import parser.tree.plog.StmtListNode;
+import parser.tree.plog.StringNode;
 import parser.tree.plog.TermNode;
 import parser.tree.plog.VarNode;
 import parser.tree.plog.WhileNode;
@@ -37,7 +39,7 @@ public abstract class Visitor {
 	public abstract Object visitNum(NumNode n);
 
 	public abstract Object visitVar(VarNode n);
-	
+
 	public abstract Object visitTerm(TermNode n);
 
 	public abstract Object visitStmtList(StmtListNode n);
@@ -47,7 +49,10 @@ public abstract class Visitor {
 	public abstract Object visitRead(ReadNode n);
 
 	public abstract Object visitWrite(WriteNode n);
-	
+
 	public abstract Object visitIf(IfNode n);
 
+	public abstract Object visitLookupVar(LookupVarNode n);
+
+	public abstract Object visitString(StringNode n);
 }

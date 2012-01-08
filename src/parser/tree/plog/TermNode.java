@@ -5,18 +5,18 @@ import parser.tree.Node;
 
 public class TermNode extends Node {
 
-	private TermNode value;
+	private Node term;
 
 	public TermNode(int line) {
 		super(line);
 	}
 
-	public TermNode value() {
-		return this.value;
+	public Node term() {
+		return this.term;
 	}
 
-	public void value(TermNode value) {
-		this.value = value;
+	public void term(Node value) {
+		this.term = value;
 	}
 
 	@Override
@@ -26,6 +26,6 @@ public class TermNode extends Node {
 
 	@Override
 	public String toTreeString() {
-		return "(" + toString() + " value=" + value.toTreeString() + ")";
+		return "(" + toString() + " term=" + term.toTreeString() + ")";
 	}
 }

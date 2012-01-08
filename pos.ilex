@@ -1,0 +1,14 @@
+begin
+  write "Enter a number: "
+  read max
+  init := 0
+  while init < max
+   begin
+     if init % 2 = 0
+      begin
+	    write init
+	    write " is positive\n"
+      end
+      init := init + 1
+   end
+end

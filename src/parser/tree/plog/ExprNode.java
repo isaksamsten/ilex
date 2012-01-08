@@ -6,7 +6,7 @@ import parser.tree.Node;
 public class ExprNode extends Node {
 
 	private TermNode lhs;
-	private String operator;
+	private Operator operator;
 	private ExprNode rhs;
 
 	public ExprNode(int line) {
@@ -21,11 +21,11 @@ public class ExprNode extends Node {
 		this.lhs = lhs;
 	}
 
-	public String operator() {
+	public Operator operator() {
 		return operator;
 	}
 
-	public void operator(String operator) {
+	public void operator(Operator operator) {
 		this.operator = operator;
 	}
 

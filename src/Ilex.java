@@ -25,6 +25,8 @@ import parser.Tokenizer;
 import parser.plog.PlogParser;
 import parser.plog.PlogTokenizer;
 import parser.tree.Tree;
+import runtime.plog.Builtin;
+import runtime.plog.PObject;
 import token.Token;
 
 public class Ilex {
@@ -83,7 +85,7 @@ public class Ilex {
 	public static void main(String[] args) {
 		try {
 			//args = new String[] { "factorial.ilex" };
-
+			
 			MessageHandler.getInstance().addParseListener(errorListener);
 			MessageHandler.getInstance().addSourceListener(sourceListener);
 
@@ -94,6 +96,9 @@ public class Ilex {
 				MessageHandler.getInstance().addParseListener(parseDebug);
 			}
 
+			Stack stack = Stack.getInstance();
+			stack.enter("string").putAttribute(TableKey.CONSTANT, Builtin.string);
+			
 			if (arguments.size() > 0) {
 				file = arguments.get(0);
 				Source source = new BufferedSource(new File(file));

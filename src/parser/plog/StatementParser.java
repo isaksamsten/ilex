@@ -17,7 +17,9 @@ public class StatementParser extends Parser<StmtNode> {
 		StmtNode node = null;
 		Parser<? extends StmtNode> parser = null;
 		if (token.type() == TokenType.IDENTIFIER) {
-			parser = new AssignmentParser(this);
+			if (tokenizer().peek().type() == TokenType.COLON_EQUAL) {
+				parser = new AssignmentParser(this);
+			} // useless
 		} else if (token.type() == TokenType.READ) {
 			parser = new ReadParser(this);
 		} else if (token.type() == TokenType.WRITE) {

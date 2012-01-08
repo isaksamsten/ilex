@@ -10,6 +10,7 @@ public abstract class Tokenizer {
 
 	private Source source;
 	private Token current;
+	private Token peek;
 	private char startComment;
 
 	public Tokenizer(Source source, char comment) {
@@ -25,9 +26,21 @@ public abstract class Tokenizer {
 		return current;
 	}
 
+	public Token peek() throws IOException {
+		if (peek == null) {
+			peek = next();
+		}
+		return peek;
+	}
+
 	public Token next() throws IOException {
-		current = extract();
-		MessageHandler.getInstance().token(current);
+		if (peek != null) {
+			current = peek;
+			peek = null;
+		} else {
+			current = extract();
+			MessageHandler.getInstance().token(current);
+		}
 		return current;
 	}
 

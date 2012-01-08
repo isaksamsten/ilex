@@ -7,6 +7,7 @@ import interpreter.TableKey;
 import java.util.Scanner;
 
 import parser.tree.plog.AssignNode;
+import parser.tree.plog.CallNode;
 import parser.tree.plog.CompNode;
 import parser.tree.plog.ExprNode;
 import parser.tree.plog.IfNode;
@@ -20,64 +21,30 @@ import parser.tree.plog.TermNode;
 import parser.tree.plog.VarNode;
 import parser.tree.plog.WhileNode;
 import parser.tree.plog.WriteNode;
+import runtime.plog.PNumber;
+import runtime.plog.PObject;
 
 public class Interpreter extends Visitor {
 
 	private static final Stack stack = Stack.getInstance();
 	private static final Scanner in = new Scanner(System.in);
 
-	private Object calculate(Object a, Object b, String op) {
-		if (b == null)
-			return a;
-
-		if (!(a instanceof Number))
-			throw new IntepreterException("\"" + a + "\" is not a number.");
-
-		if (!(b instanceof Number))
-			throw new IntepreterException("\"" + b + "\" is not a number.");
-
-		if (op.equals("PLUS")) {
-			return ((Number) a).intValue() + ((Number) b).intValue();
-		} else if (op.equals("MINUS")) {
-			return ((Number) a).intValue() - ((Number) b).intValue();
-		} else if (op.equals("STAR")) {
-			return ((Number) a).intValue() * ((Number) b).intValue();
-		} else if (op.equals("PERCENT")) {
-			return ((Number) a).intValue() % ((Number) b).intValue();
-		} else {
-			return ((Number) a).intValue() / ((Number) b).intValue();
-		}
-
-	}
-
-	private boolean compare(Number a, Number b, Operator op) {
-		if (op == Operator.EQUAL) {
-			return a.intValue() == ((Number) b).intValue();
-		} else if (op == Operator.LESS_THAN) {
-			return a.intValue() < ((Number) b).intValue();
-		} else if (op == Operator.LESS_THAN_EQUAL) {
-			return a.intValue() <= ((Number) b).intValue();
-		} else if (op == Operator.GREATER_THAN_EQUAL) {
-			return a.intValue() >= ((Number) b).intValue();
-		} else {
-			return a.intValue() > ((Number) b).intValue();
-		}
-	}
-
 	@Override
 	public Object visitComp(CompNode n) {
-		Number a = (Number) visit(n.lhs());
-		Number b = (Number) visit(n.rhs());
+		PObject a = (PObject) visit(n.lhs());
+		PObject b = (PObject) visit(n.rhs());
 
-		return compare(a, b, n.operator());
+		return a.invoke(n.operator().function(), b);
 	}
 
 	@Override
 	public Object visitExpr(ExprNode n) {
-		Object a = visit(n.lhs());
-		Object b = visit(n.rhs());
-
-		return calculate(a, b, n.operator());
+		PObject a = (PObject) visit(n.lhs());
+		PObject b = (PObject) visit(n.rhs());
+		if (b == null) {
+			return a;
+		}
+		return a.invoke(n.operator().function(), b);
 	}
 
 	@Override
@@ -112,11 +79,11 @@ public class Interpreter extends Visitor {
 
 	@Override
 	public Object visitWhile(WhileNode n) {
-		boolean compared = (Boolean) visit(n.compare());
+		PObject compared = (PObject) visit(n.compare());
 		stack.push();
-		while (compared) {
+		while (compared.isTrue()) {
 			visit(n.statementList());
-			compared = (Boolean) visit(n.compare());
+			compared = (PObject) visit(n.compare());
 		}
 		stack.pop();
 		return null;
@@ -127,15 +94,15 @@ public class Interpreter extends Visitor {
 		String var = (String) visit(n.var());
 		int value = in.nextInt();
 
-		stack.enter(var).putAttribute(TableKey.CONSTANT, value);
+		stack.enter(var).putAttribute(TableKey.CONSTANT, new PNumber(value));
 		return value;
 	}
 
 	@Override
 	public Object visitWrite(WriteNode n) {
 		for (ExprNode expr : n.expr()) {
-			Object value = visit(expr);
-			System.out.print(value);
+			PObject value = (PObject) visit(expr);
+			System.out.print(value.invoke("str"));
 		}
 
 		return null;
@@ -148,8 +115,8 @@ public class Interpreter extends Visitor {
 
 	@Override
 	public Object visitIf(IfNode n) {
-		boolean compare = (Boolean) visit(n.compare());
-		if (compare) {
+		PObject compare = (PObject) visit(n.compare());
+		if (compare.isTrue()) {
 			visit(n.trueStmt());
 		} else {
 			visit(n.falseStmt());
@@ -171,5 +138,11 @@ public class Interpreter extends Visitor {
 	@Override
 	public Object visitString(StringNode n) {
 		return n.string();
+	}
+
+	@Override
+	public Object visitCall(CallNode callNode) {
+		PObject object = (PObject) visit(callNode.lhs());
+		return object.invoke(callNode.names().get(0).var());
 	}
 }

@@ -1,19 +1,21 @@
 package parser.tree.plog;
 
 import parser.tree.Node;
+import runtime.plog.PNumber;
+import runtime.plog.PObject;
 import interpreter.plog.Visitor;
 
 public class NumNode extends Node {
 
-	private Number number;
+	private PNumber number;
 
 	public NumNode(int line, Number number) {
 		super(line);
-		this.number = number;
+		this.number = new PNumber(number);
 	}
 
-	public Number number() {
-		return this.number;
+	public PObject number() {
+		return number;
 	}
 
 	@Override

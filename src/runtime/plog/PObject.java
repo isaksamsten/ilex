@@ -3,10 +3,10 @@ package runtime.plog;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PObject {
+public class PObject implements Comparable<PObject> {
 
 	private PClass base;
-	private Map<String, PObject> dict = new HashMap<String, PObject>();
+	private Map<String, Object> dict = new HashMap<String, Object>();
 
 	public PObject(PClass base) {
 		this.base = base;
@@ -16,21 +16,31 @@ public class PObject {
 		return this.base;
 	}
 
-	public PObject dict(String name) {
-		PObject item = dict.get(name);
+	public Object dict(String name) {
+		Object item = dict.get(name);
 		if (item != null) {
 			return item;
 		} else {
-			throw new RuntimeException(name + " is in dict of " + toString());
+			throw new RuntimeException(name + " is not in dict of "
+					+ toString());
 		}
 	}
 
-	public void dict(String name, PObject value) {
+	public void dict(String name, Object value) {
 		this.dict.put(name, value);
 	}
 
 	public PObject invoke(String func, PObject... args) {
 		PFunction function = base().func(func);
 		return function.execute(this, args);
+	}
+
+	public boolean isTrue() {
+		return true;
+	}
+
+	@Override
+	public int compareTo(PObject o) {
+		return hashCode() - o.hashCode();
 	}
 }

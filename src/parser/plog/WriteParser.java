@@ -35,6 +35,7 @@ public class WriteParser extends Parser<WriteNode> {
 				} else {
 					error(ErrorCode.INVALID_WRITE);
 				}
+				token = tokenizer().current();
 			}
 
 		} else {

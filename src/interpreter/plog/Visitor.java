@@ -4,6 +4,7 @@ import java.util.List;
 
 import parser.tree.Node;
 import parser.tree.plog.AssignNode;
+import parser.tree.plog.CallNode;
 import parser.tree.plog.CompNode;
 import parser.tree.plog.ExprNode;
 import parser.tree.plog.IfNode;
@@ -55,4 +56,6 @@ public abstract class Visitor {
 	public abstract Object visitLookupVar(LookupVarNode n);
 
 	public abstract Object visitString(StringNode n);
+
+	public abstract Object visitCall(CallNode callNode);
 }

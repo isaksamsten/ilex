@@ -6,10 +6,16 @@ import java.util.Map;
 public class PClass extends PObject {
 	private String name;
 	private Map<String, PFunction> functions = new HashMap<String, PFunction>();
-	
-	public PClass(String name) {
-		super(null);
+	private PClass base;
+
+	public PClass(String name, PClass base) {
+		super(Builtin.pclass);
 		this.name = name;
+		this.base = base;
+	}
+
+	public PClass(String name) {
+		this(name, null);
 	}
 
 	public String name() {
@@ -20,6 +26,8 @@ public class PClass extends PObject {
 		PFunction func = functions.get(str);
 		if (func != null) {
 			return func;
+		} else if (base != null && (func = base.func(str)) != null) {
+			return func;
 		} else {
 			throw new RuntimeException(str + " is not a function of "
 					+ toString());
@@ -27,11 +35,11 @@ public class PClass extends PObject {
 	}
 
 	public void func(PFunction f) {
-		if (!functions.containsKey(f.name())) {
-			functions.put(f.name(), f);
-		} else {
-			throw new RuntimeException("Can't redefine " + f.name() + " of "
-					+ toString());
-		}
+		functions.put(f.name(), f);
+	}
+	
+	@Override
+	public String toString() {
+		return "Class: " + name;
 	}
 }

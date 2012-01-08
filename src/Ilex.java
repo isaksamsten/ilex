@@ -47,13 +47,6 @@ public class Ilex {
 			}
 			builder.append("^\n*** ");
 			builder.append(error);
-			builder.append(" At [");
-			if (text != null) {
-				builder.append("'" + text + "' ");
-			}
-			builder.append(line + ":" + pos);
-			builder.append("]");
-
 			System.out.println(builder.toString());
 		}
 	};
@@ -113,6 +106,7 @@ public class Ilex {
 					interpreter.visit(tree.root());
 				}
 			} else {
+				file = "<stdin>";
 				Source source = null;
 				Tokenizer tokenizer = null;
 

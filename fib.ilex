@@ -6,17 +6,7 @@ begin
   t := 0
   i := 2
   write "Enter a number: "
-  read nth
-
-  if nth > 1
-   begin
-     write "Input number is greater than 1\n"
-   end
-  else
-   begin
-     write "Input number is less than\n"
-   end
-  
+  read nth 
   
   while i <= nth
    begin
@@ -25,8 +15,5 @@ begin
      v := t
      i := i + 1
    end
-  write "The "
-  write nth
-  write " fibonacci number is "
-  write v  
+  write "The ", nth, " fibonacci number is ", v  
 end

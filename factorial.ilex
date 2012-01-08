@@ -8,8 +8,5 @@ begin
      f := f * i
      i := i + 1
    end
-   write "The factorial of "
-   write num
-   write " is "
-   write f
+   write "The factorial of ", num, " is ", f
 end

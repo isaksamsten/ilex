@@ -5,8 +5,8 @@ import java.io.IOException;
 import parser.Parser;
 import parser.tree.plog.ReadNode;
 import parser.tree.plog.VarNode;
-import token.ErrorCode;
 import token.Token;
+import token.plog.ErrorCode;
 import token.plog.TokenType;
 
 public class ReadParser extends Parser<ReadNode> {

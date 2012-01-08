@@ -12,6 +12,7 @@ import parser.tree.plog.ExprNode;
 import parser.tree.plog.IfNode;
 import parser.tree.plog.LookupVarNode;
 import parser.tree.plog.NumNode;
+import parser.tree.plog.Operator;
 import parser.tree.plog.ReadNode;
 import parser.tree.plog.StmtListNode;
 import parser.tree.plog.StringNode;
@@ -49,14 +50,14 @@ public class Interpreter extends Visitor {
 
 	}
 
-	private boolean compare(Number a, Number b, String op) {
-		if (op.equals("EQUAL")) {
+	private boolean compare(Number a, Number b, Operator op) {
+		if (op == Operator.EQUAL) {
 			return a.intValue() == ((Number) b).intValue();
-		} else if (op.equals("LT")) {
+		} else if (op == Operator.LESS_THAN) {
 			return a.intValue() < ((Number) b).intValue();
-		} else if (op.equals("LTE")) {
+		} else if (op == Operator.LESS_THAN_EQUAL) {
 			return a.intValue() <= ((Number) b).intValue();
-		} else if (op.equals("GTE")) {
+		} else if (op == Operator.GREATER_THAN_EQUAL) {
 			return a.intValue() >= ((Number) b).intValue();
 		} else {
 			return a.intValue() > ((Number) b).intValue();
@@ -68,7 +69,7 @@ public class Interpreter extends Visitor {
 		Number a = (Number) visit(n.lhs());
 		Number b = (Number) visit(n.rhs());
 
-		return compare(a, b, n.compareOp());
+		return compare(a, b, n.operator());
 	}
 
 	@Override
@@ -132,10 +133,12 @@ public class Interpreter extends Visitor {
 
 	@Override
 	public Object visitWrite(WriteNode n) {
-		Object value = visit(n.expr());
-		System.out.print(value);
+		for (ExprNode expr : n.expr()) {
+			Object value = visit(expr);
+			System.out.print(value);
+		}
 
-		return value;
+		return null;
 	}
 
 	@Override

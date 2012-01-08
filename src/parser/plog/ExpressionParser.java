@@ -9,8 +9,8 @@ import parser.tree.plog.LookupVarNode;
 import parser.tree.plog.NumNode;
 import parser.tree.plog.StringNode;
 import parser.tree.plog.TermNode;
-import token.ErrorCode;
 import token.Token;
+import token.plog.ErrorCode;
 import token.plog.TokenType;
 
 public class ExpressionParser extends Parser<ExprNode> {

@@ -6,8 +6,8 @@ import parser.Parser;
 import parser.tree.plog.CompNode;
 import parser.tree.plog.StmtListNode;
 import parser.tree.plog.WhileNode;
-import token.ErrorCode;
 import token.Token;
+import token.plog.ErrorCode;
 
 public class WhileParser extends Parser<WhileNode> {
 

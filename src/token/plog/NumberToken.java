@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.math.BigInteger;
 
 import parser.Source;
-import token.ErrorCode;
 import token.Token;
 
 public class NumberToken extends Token {

@@ -7,8 +7,8 @@ import parser.Parser;
 import parser.Tokenizer;
 import parser.tree.Node;
 import parser.tree.Tree;
-import token.ErrorCode;
 import token.Token;
+import token.plog.ErrorCode;
 
 public class PlogParser extends Parser<Tree> {
 

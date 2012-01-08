@@ -1,4 +1,4 @@
-package token;
+package token.plog;
 
 public enum ErrorCode {
 	INVALID_CHARACTER("Invalid character."), INVALID_NUMBER("Invalid number."), IO_ERROR(

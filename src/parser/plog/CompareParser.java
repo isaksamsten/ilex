@@ -6,8 +6,9 @@ import java.util.EnumSet;
 import parser.Parser;
 import parser.tree.plog.CompNode;
 import parser.tree.plog.ExprNode;
-import token.ErrorCode;
+import parser.tree.plog.Operator;
 import token.Token;
+import token.plog.ErrorCode;
 import token.plog.TokenType;
 
 public class CompareParser extends Parser<CompNode> {
@@ -33,7 +34,7 @@ public class CompareParser extends Parser<CompNode> {
 
 			token = tokenizer().current();
 			if (compareOps.contains(token.type())) {
-				node.compareOp(token.type().toString());
+				node.operator(Operator.fromTokenType(token.type()));
 
 				token = tokenizer().next();
 				expr = parser.parse(token);

@@ -4,8 +4,8 @@ import java.io.IOException;
 
 import javax.swing.event.EventListenerList;
 
-import token.ErrorCode;
 import token.Token;
+import token.plog.ErrorCode;
 
 public class MessageHandler {
 	private static final int MAX_ERRORS = 10;

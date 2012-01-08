@@ -6,18 +6,18 @@ import parser.tree.Node;
 public class CompNode extends Node {
 
 	private ExprNode lhs;
-	private String compareOp;
+	private Operator compareOp;
 	private ExprNode rhs;
 
 	public CompNode(int line) {
 		super(line);
 	}
 
-	public String compareOp() {
+	public Operator operator() {
 		return compareOp;
 	}
 
-	public void compareOp(String compareOp) {
+	public void operator(Operator compareOp) {
 		this.compareOp = compareOp;
 	}
 

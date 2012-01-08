@@ -5,8 +5,8 @@ import java.io.IOException;
 import parser.tree.Node;
 
 import message.MessageHandler;
-import token.ErrorCode;
 import token.Token;
+import token.plog.ErrorCode;
 
 public abstract class Parser<TNode> {
 

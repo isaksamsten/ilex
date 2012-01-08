@@ -6,8 +6,8 @@ import parser.Parser;
 import parser.tree.plog.CompNode;
 import parser.tree.plog.IfNode;
 import parser.tree.plog.StmtListNode;
-import token.ErrorCode;
 import token.Token;
+import token.plog.ErrorCode;
 import token.plog.TokenType;
 
 public class IfParser extends Parser<IfNode> {

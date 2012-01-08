@@ -5,8 +5,8 @@ import java.io.IOException;
 import parser.Parser;
 import parser.tree.plog.StmtListNode;
 import parser.tree.plog.StmtNode;
-import token.ErrorCode;
 import token.Token;
+import token.plog.ErrorCode;
 import token.plog.TokenType;
 
 public class StatementListParser extends Parser<StmtListNode> {

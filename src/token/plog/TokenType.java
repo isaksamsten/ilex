@@ -12,7 +12,7 @@ public enum TokenType implements ITokenType {
 
 	PLUS("+"), MINUS("-"), STAR("*"), SLASH("/"), PERCENT("%"), GT(">"), LT("<"), GTE(
 			">="), LTE("<="), EQUAL("="), COLON(":"), LEFT_BRACKET("["), RIGHT_BRACKET(
-			"]"), COLON_EQUAL(":=");
+			"]"), COMMA(","), COLON_EQUAL(":=");
 
 	private static Set<String> reserved = new HashSet<String>();
 	private static Map<String, TokenType> special = new HashMap<String, TokenType>();

@@ -6,8 +6,8 @@ import parser.Parser;
 import parser.tree.plog.AssignNode;
 import parser.tree.plog.ExprNode;
 import parser.tree.plog.VarNode;
-import token.ErrorCode;
 import token.Token;
+import token.plog.ErrorCode;
 import token.plog.TokenType;
 
 public class AssignmentParser extends Parser<AssignNode> {

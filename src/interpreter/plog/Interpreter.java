@@ -122,7 +122,6 @@ public class Interpreter extends Visitor {
 	@Override
 	public Object visitRead(ReadNode n) {
 		String var = (String) visit(n.var());
-		System.out.print("?- ");
 		int value = in.nextInt();
 
 		stack.enter(var).putAttribute(TableKey.CONSTANT, value);

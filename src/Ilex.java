@@ -109,12 +109,14 @@ public class Ilex {
 
 			}
 
-			System.out.println("\t************ Stack ************");
-			System.out.println("\tLevel: "
-					+ Stack.getInstance().currentNestingLevel());
-			for (TableEntry entry : Stack.getInstance().local().sorted()) {
-				System.out.println("\t   " + entry.name() + " "
-						+ entry.getAttribute(TableKey.CONSTANT));
+			if (arguments.contains("--stack")) {
+				System.out.println("\t************ Stack ************");
+				System.out.println("\tLevel: "
+						+ Stack.getInstance().currentNestingLevel());
+				for (TableEntry entry : Stack.getInstance().local().sorted()) {
+					System.out.println("\t   " + entry.name() + " "
+							+ entry.getAttribute(TableKey.CONSTANT));
+				}
 			}
 
 		} catch (IOException e) {

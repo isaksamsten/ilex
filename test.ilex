@@ -5,17 +5,16 @@ begin
   v := 1
   t := 0
   i := 2
+  write "Enter a number: "
   read nth
-  aha := "isak\n"
 
   if nth > 1
    begin
-     write 123
+     write "Input number is greater than 1\n"
    end
   else
    begin
-     write 321
-     write "\n"
+     write "Input number is less than\n"
    end
   
   
@@ -26,7 +25,8 @@ begin
      v := t
      i := i + 1
    end
-  write "fib:"
-  write v
-  
+  write "The "
+  write nth
+  write " fibonacci number is "
+  write v  
 end

@@ -16,7 +16,7 @@ import token.plog.TokenType;
 public class ExpressionParser extends Parser<ExprNode> {
 
 	private EnumSet<TokenType> operators = EnumSet.of(TokenType.PLUS,
-			TokenType.MINUS, TokenType.STAR, TokenType.SLASH);
+			TokenType.MINUS, TokenType.STAR, TokenType.SLASH, TokenType.PERCENT);
 
 	public ExpressionParser(Parser<?> parent) {
 		super(parent);
@@ -36,6 +36,9 @@ public class ExpressionParser extends Parser<ExprNode> {
 				term.term(new NumNode(token.line(), (Number) token.value()));
 			} else if (token.type() == TokenType.STRING) {
 				term.term(new StringNode(token.line(), (String) token.value()));
+			} else if (token.type() == TokenType.LEFT_BRACKET) {
+				throw new UnsupportedOperationException(
+						"Can't create arrays yet");
 			} else {
 				term.term(new LookupVarNode(token.line(), token.text()));
 			}

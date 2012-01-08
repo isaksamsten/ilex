@@ -41,6 +41,8 @@ public class Interpreter extends Visitor {
 			return ((Number) a).intValue() - ((Number) b).intValue();
 		} else if (op.equals("STAR")) {
 			return ((Number) a).intValue() * ((Number) b).intValue();
+		} else if (op.equals("PERCENT")) {
+			return ((Number) a).intValue() % ((Number) b).intValue();
 		} else {
 			return ((Number) a).intValue() / ((Number) b).intValue();
 		}

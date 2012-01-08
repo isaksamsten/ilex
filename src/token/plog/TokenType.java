@@ -10,8 +10,9 @@ import token.ITokenType;
 public enum TokenType implements ITokenType {
 	IDENTIFIER, NUMBER, STRING, END_OF_FILE, READ, WRITE, IF, ELSE, WHILE, BEGIN, END, ERROR,
 
-	PLUS("+"), MINUS("-"), STAR("*"), SLASH("/"), GT(">"), LT("<"), GTE(">="), LTE(
-			"<="), EQUAL("="), COLON(":"), COLON_EQUAL(":=");
+	PLUS("+"), MINUS("-"), STAR("*"), SLASH("/"), PERCENT("%"), GT(">"), LT("<"), GTE(
+			">="), LTE("<="), EQUAL("="), COLON(":"), LEFT_BRACKET("["), RIGHT_BRACKET(
+			"]"), COLON_EQUAL(":=");
 
 	private static Set<String> reserved = new HashSet<String>();
 	private static Map<String, TokenType> special = new HashMap<String, TokenType>();

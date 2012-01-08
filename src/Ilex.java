@@ -78,7 +78,7 @@ public class Ilex {
 
 	public static void main(String[] args) {
 		try {
-			args = new String[] { "test.ilex" };
+			// args = new String[] { "factorial.ilex" };
 
 			MessageHandler.getInstance().addParseListener(errorListener);
 			MessageHandler.getInstance().addSourceListener(

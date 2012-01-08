@@ -21,7 +21,7 @@ public class PlogParser extends Parser<Tree> {
 		Node root = null;
 		long elapsed = System.currentTimeMillis();
 		try {
-			StatementListParser assignment = new StatementListParser(this);
+			StatementParser assignment = new StatementParser(this);
 			root = assignment.parse(token);
 		} catch (IOException e) {
 			MessageHandler.getInstance().fatal(ErrorCode.IO_ERROR, e);

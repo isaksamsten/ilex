@@ -17,7 +17,12 @@ public class BufferedSource implements Source {
 	private int eofCurrent = current;
 
 	public BufferedSource(File file) throws IOException {
-		in = new BufferedReader(new FileReader(file));
+		this(new BufferedReader(new FileReader(file)));
+
+	}
+
+	public BufferedSource(BufferedReader reader) throws IOException {
+		in = reader;
 		readLine();
 		next();
 	}

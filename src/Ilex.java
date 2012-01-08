@@ -4,12 +4,15 @@ import interpreter.TableKey;
 import interpreter.plog.Interpreter;
 import interpreter.plog.Visitor;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.StringReader;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 
 import message.MessageHandler;
 import message.ParseAdapter;
@@ -65,6 +68,14 @@ public class Ilex {
 		}
 	};
 
+	private static SourceListener sourceListener = new SourceListener() {
+
+		@Override
+		public void line(int num, String line) {
+			source.put(num, line);
+		}
+	};
+
 	private static ParseListener parseDebug = new ParseAdapter() {
 
 		@Override
@@ -78,35 +89,48 @@ public class Ilex {
 
 	public static void main(String[] args) {
 		try {
-			// args = new String[] { "factorial.ilex" };
+			//args = new String[] { "factorial.ilex" };
 
 			MessageHandler.getInstance().addParseListener(errorListener);
-			MessageHandler.getInstance().addSourceListener(
-					new SourceListener() {
-
-						@Override
-						public void line(int num, String line) {
-							source.put(num, line);
-						}
-					});
+			MessageHandler.getInstance().addSourceListener(sourceListener);
 
 			List<String> arguments = Arrays.asList(args);
 			if (arguments.contains("--summary")) {
 				MessageHandler.getInstance().addParseListener(parseSummary);
+			} else if (arguments.contains("--debug")) {
+				MessageHandler.getInstance().addParseListener(parseDebug);
 			}
 
-			file = arguments.get(arguments.size() - 1);
-			Source source = new BufferedSource(new File(file));
-			Tokenizer tokenizer = new PlogTokenizer(source);
+			if (arguments.size() > 0) {
+				file = arguments.get(0);
+				Source source = new BufferedSource(new File(file));
+				Tokenizer tokenizer = new PlogTokenizer(source);
 
-			Parser<Tree> parser = new PlogParser(tokenizer);
-			Tree tree = parser.parse();
-			if (!parser.errors()) {
-				// System.out.println(tree.toString());
+				Parser<Tree> parser = new PlogParser(tokenizer);
+				Tree tree = parser.parse();
+				if (!parser.errors()) {
+					Visitor interpreter = new Interpreter();
+					interpreter.visit(tree.root());
+				}
+			} else {
+				Source source = null;
+				Tokenizer tokenizer = null;
 
-				Visitor interpreter = new Interpreter();
-				interpreter.visit(tree.root());
-
+				Parser<Tree> parser = null;
+				Scanner sc = new Scanner(System.in);
+				while (true) {
+					System.out.print(">> ");
+					String code = sc.nextLine();
+					
+					source = new BufferedSource(new BufferedReader(new StringReader(code)));
+					tokenizer = new PlogTokenizer(source);
+					parser = new PlogParser(tokenizer);
+					Tree tree = parser.parse();
+					if (!parser.errors()) {
+						Visitor interpreter = new Interpreter();
+						interpreter.visit(tree.root());
+					}
+				}
 			}
 
 			if (arguments.contains("--stack")) {

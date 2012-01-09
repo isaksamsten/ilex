@@ -51,6 +51,10 @@ public class MessageHandler {
 	public int errors() {
 		return errors;
 	}
+	
+	public void reset() {
+		errors = 0;
+	}
 
 	public void line(int num, String line) {
 		for (SourceListener l : listeners.getListeners(SourceListener.class)) {

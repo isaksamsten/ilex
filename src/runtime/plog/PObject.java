@@ -11,9 +11,16 @@ public class PObject implements Comparable<PObject> {
 	public PObject(PClass base) {
 		this.base = base;
 	}
+	
+	public PObject() {
+	}
 
 	public PClass base() {
 		return this.base;
+	}
+
+	public void base(PClass c) {
+		this.base = c;
 	}
 
 	public Object dict(String name) {

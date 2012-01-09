@@ -4,7 +4,7 @@ public abstract class PFunction extends PClass {
 	private int arity;
 
 	public PFunction(String name, int arity) {
-		super(name);
+		super(name, Builtin.pfunc);
 		this.arity = arity;
 	}
 

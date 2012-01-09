@@ -4,8 +4,10 @@ public final class Builtin {
 	public static final PClass pclass = new PClass("Class");
 	public static final PClass object = new PClass("Object");
 	public static final PClass number = new PClass("Number", object);
-	public static final PClass bool = new PClass("Boolean", object);
+	public static final PClass ptrue = new PClass("True", object);
+	public static final PClass pfalse = new PClass("False", object);
 	public static final PClass string = new PClass("String", object);
+	public static final PClass pfunc = new PClass("Function");
 
 	static {
 		
@@ -67,6 +69,22 @@ public final class Builtin {
 			@Override
 			PObject execute(PObject self, PObject... args) {
 				return new PNumber(((PString) self).value().length());
+			}
+		});
+		
+		pfalse.func(new PFunction("true", 0) {
+			
+			@Override
+			PObject execute(PObject self, PObject... args) {
+				return PFalse.instance;
+			}
+		});
+		
+		object.func(new PFunction("true", 0) {
+
+			@Override
+			PObject execute(PObject self, PObject... args) {
+				return PTrue.instance;
 			}
 		});
 

@@ -5,12 +5,14 @@ import java.util.EnumSet;
 
 import parser.Parser;
 import parser.tree.Node;
+import parser.tree.plog.CallNode;
 import parser.tree.plog.ExprNode;
 import parser.tree.plog.LookupVarNode;
 import parser.tree.plog.NumNode;
 import parser.tree.plog.Operator;
 import parser.tree.plog.StringNode;
 import parser.tree.plog.TermNode;
+import parser.tree.plog.VarNode;
 import token.Token;
 import token.plog.ErrorCode;
 import token.plog.TokenType;
@@ -33,25 +35,30 @@ public class ExpressionParser extends Parser<ExprNode> {
 		ExprNode node = null;
 		if (start.contains(token.type()) && !TokenType.isReserved(token.text())) {
 			node = new ExprNode(tokenizer().source().line());
+			TermNode lhs = new TermNode(token.line());
 
-			TermNode term = new TermNode(token.line());
-			Node termNode = null;
-			switch (token.type()) {
-			case NUMBER:
-				termNode = new NumNode(token.line(), (Number) token.value());
-				break;
-			case STRING:
-				termNode = new StringNode(token.line(), (String) token.value());
-				break;
-			case LEFT_BRACKET:
-				throw new UnsupportedOperationException(
-						"Can't create arrays yet");
-			default:
-				termNode = new LookupVarNode(token.line(), token.text());
+			if (tokenizer().peek().type() == TokenType.DOT) {
+				Node calle = extractVar(token);
+				TermNode t = new TermNode(token.line());
+				t.term(calle);
+
+				token = tokenizer().next(); // consume dot
+				token = tokenizer().next();
+				CallNode call = new CallNode(token.line());
+				call.lhs(t);
+				call.add(new VarNode(token.line(), (String) token.value()));
+				
+				TermNode tt = new TermNode(token.line());
+				tt.term(call);
+
+				node.lhs(tt);				
+				//tokenizer().next();
+			} else {
+				Node termNode = extractVar(token);
+				lhs.term(termNode);
+				node.lhs(lhs);
 			}
-			term.term(termNode);
-			node.lhs(term);
-			
+
 			token = tokenizer().next();
 			if (operators.contains(token.type())) {
 				node.operator(Operator.fromTokenType(token.type()));
@@ -60,14 +67,32 @@ public class ExpressionParser extends Parser<ExprNode> {
 				ExpressionParser subExpr = new ExpressionParser(this);
 				ExprNode rhsNode = subExpr.parse(token);
 				node.rhs(rhsNode);
-			} else if(token.type() == TokenType.DOT) {
-				throw new UnsupportedOperationException(
-						"Can't call functions yet");
 			}
 		} else {
 			error(ErrorCode.INVALID_EXPR);
 		}
 
 		return node;
+	}
+
+	/**
+	 * @param token
+	 * @return
+	 */
+	protected Node extractVar(Token token) {
+		Node termNode;
+		switch (token.type()) {
+		case NUMBER:
+			termNode = new NumNode(token.line(), (Number) token.value());
+			break;
+		case STRING:
+			termNode = new StringNode(token.line(), (String) token.value());
+			break;
+		case LEFT_BRACKET:
+			throw new UnsupportedOperationException("Can't create arrays yet");
+		default:
+			termNode = new LookupVarNode(token.line(), token.text());
+		}
+		return termNode;
 	}
 }

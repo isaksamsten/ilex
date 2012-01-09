@@ -18,6 +18,7 @@ public class PClass extends PObject {
 		this(name, null);
 	}
 
+
 	public String name() {
 		return name;
 	}
@@ -33,13 +34,13 @@ public class PClass extends PObject {
 					+ toString());
 		}
 	}
-
+	
 	public void func(PFunction f) {
 		functions.put(f.name(), f);
 	}
-	
+
 	@Override
 	public String toString() {
-		return "Class: " + name;
+		return name;
 	}
 }

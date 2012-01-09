@@ -98,6 +98,8 @@ public class Ilex {
 
 			Stack stack = Stack.getInstance();
 			stack.enter("string").putAttribute(TableKey.CONSTANT, Builtin.string);
+			stack.enter("true").putAttribute(TableKey.CONSTANT, Builtin.ptrue);
+			stack.enter("false").putAttribute(TableKey.CONSTANT, Builtin.pfalse);
 			
 			if (arguments.size() > 0) {
 				file = arguments.get(0);
@@ -129,6 +131,8 @@ public class Ilex {
 						Visitor interpreter = new Interpreter();
 						interpreter.visit(tree.root());
 					}
+					
+					MessageHandler.getInstance().reset();
 				}
 			}
 

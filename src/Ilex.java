@@ -1,6 +1,7 @@
 import interpreter.Stack;
 import interpreter.TableEntry;
 import interpreter.TableKey;
+import interpreter.plog.IntepreterException;
 import interpreter.plog.Interpreter;
 import interpreter.plog.Visitor;
 
@@ -84,8 +85,8 @@ public class Ilex {
 
 	public static void main(String[] args) {
 		try {
-			//args = new String[] { "factorial.ilex" };
-			
+			// args = new String[] { "factorial.ilex" };
+
 			MessageHandler.getInstance().addParseListener(errorListener);
 			MessageHandler.getInstance().addSourceListener(sourceListener);
 
@@ -97,10 +98,14 @@ public class Ilex {
 			}
 
 			Stack stack = Stack.getInstance();
-			stack.enter("string").putAttribute(TableKey.CONSTANT, Builtin.string);
+			stack.enter("string").putAttribute(TableKey.CONSTANT,
+					Builtin.string);
+			stack.enter("object").putAttribute(TableKey.CONSTANT,
+					Builtin.object);
 			stack.enter("true").putAttribute(TableKey.CONSTANT, Builtin.ptrue);
-			stack.enter("false").putAttribute(TableKey.CONSTANT, Builtin.pfalse);
-			
+			stack.enter("false")
+					.putAttribute(TableKey.CONSTANT, Builtin.pfalse);
+
 			if (arguments.size() > 0) {
 				file = arguments.get(0);
 				Source source = new BufferedSource(new File(file));
@@ -122,16 +127,21 @@ public class Ilex {
 				while (true) {
 					System.out.print(">> ");
 					String code = sc.nextLine();
-					
-					source = new BufferedSource(new BufferedReader(new StringReader(code)));
+
+					source = new BufferedSource(new BufferedReader(
+							new StringReader(code)));
 					tokenizer = new PlogTokenizer(source);
 					parser = new PlogParser(tokenizer);
 					Tree tree = parser.parse();
 					if (!parser.errors()) {
-						Visitor interpreter = new Interpreter();
-						interpreter.visit(tree.root());
+						try {
+							Visitor interpreter = new Interpreter();
+							interpreter.visit(tree.root());
+						} catch (IntepreterException e) {
+							e.printStackTrace();
+						}
 					}
-					
+
 					MessageHandler.getInstance().reset();
 				}
 			}

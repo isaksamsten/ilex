@@ -1,24 +1,34 @@
 package runtime.plog;
 
 public final class Builtin {
-	public static final PClass pclass = new PClass("Class");
-	public static final PClass object = new PClass("Object");
-	public static final PClass number = new PClass("Number", object);
-	public static final PClass ptrue = new PClass("True", object);
-	public static final PClass pfalse = new PClass("False", object);
-	public static final PClass string = new PClass("String", object);
-	public static final PClass pfunc = new PClass("Function");
+	public static final PObject object = new PObject("Object");
+
+	public static final PObject pbool = new PObject("Boolean", object);
+	public static final PObject pfalse = new PObject("False", pbool);
+	public static final PObject ptrue = new PObject("True", pbool);
+	
+	public static final PObject number = new PObject("Number", object);
+	public static final PObject string = new PObject("String", object);
+	public static final PObject pfunc = new PObject("Function", object);
 
 	static {
-		
-		pclass.func(new PFunction("new", 0) {
-			
+
+		object.func(new PFunction("clone", 0) {
+
 			@Override
 			PObject execute(PObject self, PObject... args) {
-				return new PObject((PClass) self);
+				return new PObject(self);
 			}
 		});
 		
+		pbool.func(new PFunction("clone",0) {
+			
+			@Override
+			PObject execute(PObject self, PObject... args) {
+				return self;
+			}
+		});
+
 		number.func(new PFunction("add", 1) {
 
 			@Override
@@ -63,23 +73,31 @@ public final class Builtin {
 				return num.mod((PNumber) args[0]);
 			}
 		});
-		
-		string.func(new PFunction("len",0) {
-			
+
+		string.func(new PFunction("len", 0) {
+
 			@Override
 			PObject execute(PObject self, PObject... args) {
 				return new PNumber(((PString) self).value().length());
 			}
 		});
 		
-		pfalse.func(new PFunction("true", 0) {
+		string.func(new PFunction("clone",0) {
 			
+			@Override
+			PObject execute(PObject self, PObject... args) {
+				return new PString("");
+			}
+		});
+		
+		pfalse.func(new PFunction("true", 0) {
+
 			@Override
 			PObject execute(PObject self, PObject... args) {
 				return PFalse.instance;
 			}
 		});
-		
+
 		object.func(new PFunction("true", 0) {
 
 			@Override
@@ -95,9 +113,9 @@ public final class Builtin {
 				return new PNumber(self.compareTo(args[0]));
 			}
 		});
-		
-		object.func(new PFunction("str",0) {
-			
+
+		object.func(new PFunction("str", 0) {
+
 			@Override
 			PObject execute(PObject self, PObject... args) {
 				return new PString(self.toString());

@@ -1,6 +1,6 @@
 package runtime.plog;
 
-public abstract class PFunction extends PClass {
+public abstract class PFunction extends PObject {
 	private int arity;
 
 	public PFunction(String name, int arity) {

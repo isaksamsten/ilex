@@ -1,10 +1,9 @@
 package parser.tree.plog;
 
-import parser.tree.Node;
 import runtime.plog.PString;
 import interpreter.plog.Visitor;
 
-public class StringNode extends Node {
+public class StringNode extends TermNode {
 
 	private PString string;
 

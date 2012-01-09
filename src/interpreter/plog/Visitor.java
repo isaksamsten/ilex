@@ -41,8 +41,6 @@ public abstract class Visitor {
 
 	public abstract Object visitVar(VarNode n);
 
-	public abstract Object visitTerm(TermNode n);
-
 	public abstract Object visitStmtList(StmtListNode n);
 
 	public abstract Object visitWhile(WhileNode n);

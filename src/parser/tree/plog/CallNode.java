@@ -6,20 +6,29 @@ import java.util.List;
 
 import interpreter.plog.Visitor;
 
-public class CallNode extends ExprNode {
+public class CallNode extends TermNode {
 
-	private List<VarNode> names = new LinkedList<VarNode>();
+	private List<TermNode> names = new LinkedList<TermNode>();
+	private List<ExprNode> arguments = new LinkedList<ExprNode>();
 	
 	public CallNode(int line) {
 		super(line);
 	}
 	
-	public List<VarNode> names() {
+	public List<TermNode> names() {
 		return Collections.unmodifiableList(names);
 	}
 	
-	public void add(VarNode name) {
+	public List<ExprNode> arguments() {
+		return Collections.unmodifiableList(arguments);
+	}
+	
+	public void add(TermNode name) {
 		names.add(name);
+	}
+	
+	public void add(ExprNode argument) {
+		arguments.add(argument);
 	}
 	
 	@Override

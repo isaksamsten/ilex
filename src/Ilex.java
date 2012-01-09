@@ -85,7 +85,7 @@ public class Ilex {
 
 	public static void main(String[] args) {
 		try {
-			// args = new String[] { "factorial.ilex" };
+			 args = new String[] { "factorial.ilex" };
 
 			MessageHandler.getInstance().addParseListener(errorListener);
 			MessageHandler.getInstance().addSourceListener(sourceListener);
@@ -132,11 +132,16 @@ public class Ilex {
 							new StringReader(code)));
 					tokenizer = new PlogTokenizer(source);
 					parser = new PlogParser(tokenizer);
+					if (code.trim().length() == 0)
+						continue;
 					Tree tree = parser.parse();
 					if (!parser.errors()) {
 						try {
 							Visitor interpreter = new Interpreter();
-							interpreter.visit(tree.root());
+							Object value = interpreter.visit(tree.root());
+							if (value != null) {
+								System.out.println(value);
+							}
 						} catch (IntepreterException e) {
 							e.printStackTrace();
 						}

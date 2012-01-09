@@ -3,7 +3,7 @@ package parser.tree.plog;
 import interpreter.plog.Visitor;
 import parser.tree.Node;
 
-public class ExprNode extends Node {
+public class ExprNode extends StmtNode {
 
 	private TermNode lhs;
 	private Operator operator;

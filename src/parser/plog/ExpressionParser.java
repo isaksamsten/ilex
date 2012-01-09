@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.EnumSet;
 
 import parser.Parser;
-import parser.tree.Node;
 import parser.tree.plog.CallNode;
 import parser.tree.plog.ExprNode;
 import parser.tree.plog.LookupVarNode;
@@ -19,11 +18,11 @@ import token.plog.TokenType;
 
 public class ExpressionParser extends Parser<ExprNode> {
 
-	public static final EnumSet<TokenType> operators = EnumSet.of(
+	public static final EnumSet<TokenType> OPERATORS = EnumSet.of(
 			TokenType.PLUS, TokenType.MINUS, TokenType.STAR, TokenType.SLASH,
 			TokenType.PERCENT);
 
-	private static EnumSet<TokenType> start = EnumSet.of(TokenType.NUMBER,
+	public static final EnumSet<TokenType> START = EnumSet.of(TokenType.NUMBER,
 			TokenType.IDENTIFIER, TokenType.STRING, TokenType.LEFT_BRACKET);
 
 	public ExpressionParser(Parser<?> parent) {
@@ -33,34 +32,25 @@ public class ExpressionParser extends Parser<ExprNode> {
 	@Override
 	public ExprNode parse(Token token) throws IOException {
 		ExprNode node = null;
-		if (start.contains(token.type()) && !TokenType.isReserved(token.text())) {
+		if (START.contains(token.type()) && !TokenType.isReserved(token.text())) {
 			node = new ExprNode(tokenizer().source().line());
-			TermNode lhs = new TermNode(token.line());
 
 			if (tokenizer().peek().type() == TokenType.DOT) {
-				Node calle = extractVar(token);
-				TermNode t = new TermNode(token.line());
-				t.term(calle);
+				TermNode calle = extractVar(token);
 
 				token = tokenizer().next(); // consume dot
 				token = tokenizer().next();
 				CallNode call = new CallNode(token.line());
-				call.lhs(t);
+				call.add(calle);
 				call.add(new VarNode(token.line(), (String) token.value()));
-				
-				TermNode tt = new TermNode(token.line());
-				tt.term(call);
-
-				node.lhs(tt);				
-				//tokenizer().next();
+				node.lhs(call);
 			} else {
-				Node termNode = extractVar(token);
-				lhs.term(termNode);
+				TermNode lhs = extractVar(token);
 				node.lhs(lhs);
 			}
 
 			token = tokenizer().next();
-			if (operators.contains(token.type())) {
+			if (OPERATORS.contains(token.type())) {
 				node.operator(Operator.fromTokenType(token.type()));
 				token = tokenizer().next(); // consume operator.
 
@@ -79,8 +69,8 @@ public class ExpressionParser extends Parser<ExprNode> {
 	 * @param token
 	 * @return
 	 */
-	protected Node extractVar(Token token) {
-		Node termNode;
+	protected TermNode extractVar(Token token) {
+		TermNode termNode;
 		switch (token.type()) {
 		case NUMBER:
 			termNode = new NumNode(token.line(), (Number) token.value());

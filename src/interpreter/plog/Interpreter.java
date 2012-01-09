@@ -109,11 +109,6 @@ public class Interpreter extends Visitor {
 	}
 
 	@Override
-	public Object visitTerm(TermNode n) {
-		return visit(n.term());
-	}
-
-	@Override
 	public Object visitIf(IfNode n) {
 		PObject compare = (PObject) visit(n.compare());
 		if (compare.isTrue()) {
@@ -142,7 +137,7 @@ public class Interpreter extends Visitor {
 
 	@Override
 	public Object visitCall(CallNode callNode) {
-		PObject object = (PObject) visit(callNode.lhs());
-		return object.invoke(callNode.names().get(0).var());
+		PObject object = (PObject) visit(callNode.names().get(0));
+		return object.invoke(((VarNode) callNode.names().get(1)).var());
 	}
 }

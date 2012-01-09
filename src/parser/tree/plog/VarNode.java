@@ -1,9 +1,8 @@
 package parser.tree.plog;
 
-import parser.tree.Node;
 import interpreter.plog.Visitor;
 
-public class VarNode extends Node {
+public class VarNode extends TermNode {
 	private String var;
 
 	public VarNode(int line, String var) {

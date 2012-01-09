@@ -20,7 +20,7 @@ public class StatementListParser extends Parser<StmtListNode> {
 		StmtListNode stmtList = null;
 		if (token.type() == TokenType.BEGIN) {
 			token = tokenizer().next(); // consume BEGIN
-			StatementParser parser = new StatementParser(this);
+			StatementParser parser = new StatementParser(this, true);
 			StmtNode node = parser.parse(token);
 
 			if (node != null) {

@@ -27,17 +27,12 @@ public class WriteParser extends Parser<WriteNode> {
 			node.add(expr);
 
 			token = tokenizer().current();
-			while(token.type() == TokenType.COMMA) {
-				token = tokenizer().next();
-				expr = parser.parse(token);
-				if(expr != null) {
-					node.add(expr);
-				} else {
-					error(ErrorCode.INVALID_WRITE);
+			if (token.type() == TokenType.COMMA) {
+				ExpressionListParser list = new ExpressionListParser(this);
+				for (ExprNode e : list.parse(token)) {
+					node.add(e);
 				}
-				token = tokenizer().current();
 			}
-
 		} else {
 			error(ErrorCode.INVALID_WRITE);
 		}

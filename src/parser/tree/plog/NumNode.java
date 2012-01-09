@@ -1,11 +1,10 @@
 package parser.tree.plog;
 
-import parser.tree.Node;
 import runtime.plog.PNumber;
 import runtime.plog.PObject;
 import interpreter.plog.Visitor;
 
-public class NumNode extends Node {
+public class NumNode extends TermNode {
 
 	private PNumber number;
 

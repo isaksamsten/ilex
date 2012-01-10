@@ -27,7 +27,6 @@ import parser.plog.PlogParser;
 import parser.plog.PlogTokenizer;
 import parser.tree.Tree;
 import runtime.plog.Builtin;
-import runtime.plog.PObject;
 import token.Token;
 
 public class Ilex {
@@ -48,7 +47,7 @@ public class Ilex {
 			for (int n = 0; n < pos + 1; n++) {
 				builder.append(' ');
 			}
-			builder.append("^\n*** ");
+			builder.append("^\nSyntax Error: ");
 			builder.append(error);
 			System.out.println(builder.toString());
 		}
@@ -85,7 +84,7 @@ public class Ilex {
 
 	public static void main(String[] args) {
 		try {
-			 args = new String[] { "factorial.ilex" };
+			// args = new String[] { "factorial.ilex" };
 
 			MessageHandler.getInstance().addParseListener(errorListener);
 			MessageHandler.getInstance().addSourceListener(sourceListener);
@@ -142,7 +141,7 @@ public class Ilex {
 							if (value != null) {
 								System.out.println(value);
 							}
-						} catch (IntepreterException e) {
+						} catch (Throwable e) {
 							e.printStackTrace();
 						}
 					}

@@ -1,7 +1,6 @@
 package parser.tree.plog;
 
 import interpreter.plog.Visitor;
-import parser.tree.Node;
 
 public class ExprNode extends StmtNode {
 

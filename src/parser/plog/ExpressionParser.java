@@ -4,14 +4,9 @@ import java.io.IOException;
 import java.util.EnumSet;
 
 import parser.Parser;
-import parser.tree.plog.CallNode;
 import parser.tree.plog.ExprNode;
-import parser.tree.plog.LookupVarNode;
-import parser.tree.plog.NumNode;
 import parser.tree.plog.Operator;
-import parser.tree.plog.StringNode;
 import parser.tree.plog.TermNode;
-import parser.tree.plog.VarNode;
 import token.Token;
 import token.plog.ErrorCode;
 import token.plog.TokenType;
@@ -35,21 +30,17 @@ public class ExpressionParser extends Parser<ExprNode> {
 		if (START.contains(token.type()) && !TokenType.isReserved(token.text())) {
 			node = new ExprNode(tokenizer().source().line());
 
+			TermNode lhs = null;
 			if (tokenizer().peek().type() == TokenType.DOT) {
-				TermNode calle = extractVar(token);
-
-				token = tokenizer().next(); // consume dot
-				token = tokenizer().next();
-				CallNode call = new CallNode(token.line());
-				call.add(calle);
-				call.add(new VarNode(token.line(), (String) token.value()));
-				node.lhs(call);
+				CallParser callparser = new CallParser(this);
+				lhs = callparser.parse(token);
 			} else {
-				TermNode lhs = extractVar(token);
-				node.lhs(lhs);
+				lhs = ParseUtil.value(token);
 			}
 
-			token = tokenizer().next();
+			node.lhs(lhs);
+
+			token = tokenizer().current();
 			if (OPERATORS.contains(token.type())) {
 				node.operator(Operator.fromTokenType(token.type()));
 				token = tokenizer().next(); // consume operator.
@@ -63,26 +54,5 @@ public class ExpressionParser extends Parser<ExprNode> {
 		}
 
 		return node;
-	}
-
-	/**
-	 * @param token
-	 * @return
-	 */
-	protected TermNode extractVar(Token token) {
-		TermNode termNode;
-		switch (token.type()) {
-		case NUMBER:
-			termNode = new NumNode(token.line(), (Number) token.value());
-			break;
-		case STRING:
-			termNode = new StringNode(token.line(), (String) token.value());
-			break;
-		case LEFT_BRACKET:
-			throw new UnsupportedOperationException("Can't create arrays yet");
-		default:
-			termNode = new LookupVarNode(token.line(), token.text());
-		}
-		return termNode;
 	}
 }

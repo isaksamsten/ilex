@@ -48,7 +48,7 @@ public class PObject implements Comparable<PObject> {
 
 	public PObject invoke(String func, PObject... args) {
 		PFunction function = func(func);
-		return function.execute(this, args);
+		return function.invoke(this, args);
 	}
 
 	public PFunction func(String str) {

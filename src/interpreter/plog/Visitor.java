@@ -13,7 +13,6 @@ import parser.tree.plog.NumNode;
 import parser.tree.plog.ReadNode;
 import parser.tree.plog.StmtListNode;
 import parser.tree.plog.StringNode;
-import parser.tree.plog.TermNode;
 import parser.tree.plog.VarNode;
 import parser.tree.plog.WhileNode;
 import parser.tree.plog.WriteNode;

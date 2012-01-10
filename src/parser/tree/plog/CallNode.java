@@ -1,36 +1,40 @@
 package parser.tree.plog;
 
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-
 import interpreter.plog.Visitor;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class CallNode extends TermNode {
 
-	private List<TermNode> names = new LinkedList<TermNode>();
-	private List<ExprNode> arguments = new LinkedList<ExprNode>();
-	
+	private List<List<ExprNode>> arguments = new ArrayList<List<ExprNode>>();
+	private List<TermNode> names = new ArrayList<TermNode>();
+
 	public CallNode(int line) {
 		super(line);
 	}
-	
+
 	public List<TermNode> names() {
 		return Collections.unmodifiableList(names);
 	}
-	
-	public List<ExprNode> arguments() {
+
+	public List<List<ExprNode>> arguments() {
 		return Collections.unmodifiableList(arguments);
 	}
-	
+
+	public List<ExprNode> arguments(int i) {
+		return Collections.unmodifiableList(arguments.get(i - 1));
+	}
+
 	public void add(TermNode name) {
 		names.add(name);
 	}
-	
-	public void add(ExprNode argument) {
+
+	public void add(List<ExprNode> argument) {
 		arguments.add(argument);
 	}
-	
+
 	@Override
 	public Object visit(Visitor visitor) {
 		return visitor.visitCall(this);

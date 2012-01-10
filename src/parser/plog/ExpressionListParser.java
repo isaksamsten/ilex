@@ -16,21 +16,29 @@ public class ExpressionListParser extends Parser<List<ExprNode>> {
 		super(parent);
 	}
 
+	/**
+	 * Don't return null on failure (just an empty list, check for that)
+	 */
 	@Override
 	public List<ExprNode> parse(Token token) throws IOException {
 		List<ExprNode> node = new LinkedList<ExprNode>();
 		ExpressionParser parser = new ExpressionParser(this);
-		while(token.type() == TokenType.COMMA) {
-			token = tokenizer().next();
-			ExprNode expr = parser.parse(token);
-			if(expr != null) {
-				node.add(expr);
-			} else {
-				error(ErrorCode.INVALID_WRITE);
-			}
+		ExprNode expr = parser.parse(token);
+		if (expr != null) {
+			node.add(expr);
 			token = tokenizer().current();
+			while (token.type() == TokenType.COMMA) {
+				token = tokenizer().next();
+				expr = parser.parse(token);
+				if (expr != null) {
+					node.add(expr);
+				} else {
+					error(ErrorCode.INVALID_EXPR);
+				}
+				token = tokenizer().current();
+			}
 		}
-		
+
 		return node;
 	}
 

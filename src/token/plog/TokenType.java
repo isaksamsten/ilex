@@ -11,8 +11,9 @@ public enum TokenType implements ITokenType {
 	IDENTIFIER, NUMBER, STRING, END_OF_FILE, READ, WRITE, IF, ELSE, WHILE, BEGIN, END, ERROR,
 
 	PLUS("+"), MINUS("-"), STAR("*"), SLASH("/"), PERCENT("%"), GT(">"), LT("<"), GTE(
-			">="), LTE("<="), EQUAL("="), COLON(":"), LEFT_BRACKET("["), RIGHT_BRACKET(
-			"]"), COMMA(","), DOT("."), COLON_EQUAL(":=");
+			">="), LTE("<="), EQUAL("="), COLON(":"), LEFT_PAREN("("), RIGHT_PAREN(
+			")"), LEFT_BRACKET("["), RIGHT_BRACKET("]"), COMMA(","), DOT("."), COLON_EQUAL(
+			":=");
 
 	private static Set<String> reserved = new HashSet<String>();
 	private static Map<String, TokenType> special = new HashMap<String, TokenType>();

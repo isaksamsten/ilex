@@ -28,6 +28,7 @@ public class WriteParser extends Parser<WriteNode> {
 
 			token = tokenizer().current();
 			if (token.type() == TokenType.COMMA) {
+				token = tokenizer().next(); // consume comma
 				ExpressionListParser list = new ExpressionListParser(this);
 				for (ExprNode e : list.parse(token)) {
 					node.add(e);

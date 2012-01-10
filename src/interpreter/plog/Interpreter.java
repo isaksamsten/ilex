@@ -4,6 +4,8 @@ import interpreter.Stack;
 import interpreter.TableEntry;
 import interpreter.TableKey;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import parser.tree.plog.AssignNode;
@@ -13,11 +15,9 @@ import parser.tree.plog.ExprNode;
 import parser.tree.plog.IfNode;
 import parser.tree.plog.LookupVarNode;
 import parser.tree.plog.NumNode;
-import parser.tree.plog.Operator;
 import parser.tree.plog.ReadNode;
 import parser.tree.plog.StmtListNode;
 import parser.tree.plog.StringNode;
-import parser.tree.plog.TermNode;
 import parser.tree.plog.VarNode;
 import parser.tree.plog.WhileNode;
 import parser.tree.plog.WriteNode;
@@ -136,8 +136,23 @@ public class Interpreter extends Visitor {
 	}
 
 	@Override
-	public Object visitCall(CallNode callNode) {
-		PObject object = (PObject) visit(callNode.names().get(0));
-		return object.invoke(((VarNode) callNode.names().get(1)).var());
+	public Object visitCall(CallNode node) {
+		PObject object = (PObject) visit(node.names().get(0));
+		for (int n = 1; n < node.names().size(); n++) {
+
+			if (node.arguments(n).size() > 0) {
+				List<PObject> arguments = new ArrayList<PObject>();
+				for (ExprNode arg : node.arguments(n)) {
+					arguments.add((PObject) visit(arg));
+				}
+
+				object = object.invoke(((VarNode) node.names().get(n)).var(),
+						arguments.toArray(new PObject[0]));
+			} else {
+				object = object.invoke(((VarNode) node.names().get(n)).var());
+			}
+		}
+
+		return object;
 	}
 }

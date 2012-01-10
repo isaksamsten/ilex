@@ -105,6 +105,9 @@ public class Ilex {
 			stack.enter("false")
 					.putAttribute(TableKey.CONSTANT, Builtin.pfalse);
 
+			stack.enter("system").putAttribute(TableKey.CONSTANT,
+					Builtin.system);
+
 			if (arguments.size() > 0) {
 				file = arguments.get(0);
 				Source source = new BufferedSource(new File(file));

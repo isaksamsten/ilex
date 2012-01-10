@@ -11,6 +11,8 @@ public final class Builtin {
 	public static final PObject string = new PObject("String", object);
 	public static final PObject pfunc = new PObject("Function", object);
 
+	public static final PObject system = new PObject("System", object);
+
 	static {
 
 		object.func(new PFunction("clone", 0) {
@@ -179,6 +181,15 @@ public final class Builtin {
 					return PTrue.instance;
 				else
 					return PFalse.instance;
+			}
+		});
+
+		system.func(new PFunction("exit", 0) {
+
+			@Override
+			protected PObject execute(PObject self, PObject... args) {
+				System.exit(0);
+				return null;
 			}
 		});
 

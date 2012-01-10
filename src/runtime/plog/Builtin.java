@@ -1,7 +1,8 @@
 package runtime.plog;
 
 public final class Builtin {
-	public static final PObject object = new PObject("Object");
+	public static final PObject proto = new PObject("Proto");
+	public static final PObject object = new PObject("Object", proto);
 
 	public static final PObject pbool = new PObject("Boolean", object);
 	public static final PObject pfalse = new PObject("False", pbool);
@@ -13,9 +14,18 @@ public final class Builtin {
 
 	public static final PObject system = new PObject("System", object);
 
+	public static final PObject test = new PFunction("test", 0) {
+
+		@Override
+		protected PObject execute(PObject self, PObject... args) {
+			System.out.println("Test");
+			return new PObject();
+		}
+	};
+
 	static {
 
-		object.func(new PFunction("clone", 0) {
+		proto.func(new PFunction("clone", 0) {
 
 			@Override
 			protected PObject execute(PObject self, PObject... args) {
@@ -184,12 +194,20 @@ public final class Builtin {
 			}
 		});
 
-		system.func(new PFunction("exit", 0) {
+		system.func(new PFunction("exit", 1) {
 
 			@Override
 			protected PObject execute(PObject self, PObject... args) {
-				System.exit(0);
+				System.exit(((PNumber) args[0]).intValue());
 				return null;
+			}
+		});
+
+		pfunc.func(new PFunction("__call__", 0) {
+
+			@Override
+			protected PObject execute(PObject self, PObject... args) {
+				return ((PFunction) self).invoke(self, args);
 			}
 		});
 

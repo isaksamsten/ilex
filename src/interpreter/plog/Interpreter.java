@@ -21,6 +21,7 @@ import parser.tree.plog.StringNode;
 import parser.tree.plog.VarNode;
 import parser.tree.plog.WhileNode;
 import parser.tree.plog.WriteNode;
+import runtime.plog.PFunction;
 import runtime.plog.PNumber;
 import runtime.plog.PObject;
 
@@ -138,15 +139,22 @@ public class Interpreter extends Visitor {
 	@Override
 	public Object visitCall(CallNode node) {
 		PObject object = (PObject) visit(node.names().get(0));
+		if (object.respondTo("__call__")) {
+			List<PObject> arguments = new ArrayList<PObject>();
+			for (ExprNode arg : node.arguments(0)) {
+				arguments.add((PObject) visit(arg));
+			}
+			object = object.invoke("__call__",
+					arguments.toArray(new PObject[0]));
+		}
 		for (int n = 1; n < node.names().size(); n++) {
-
-			if (node.arguments(n).size() > 0) {
+			if (node.arguments(n - 1).size() > 0) {
 				List<PObject> arguments = new ArrayList<PObject>();
-				for (ExprNode arg : node.arguments(n)) {
+				for (ExprNode arg : node.arguments(n - 1)) {
 					arguments.add((PObject) visit(arg));
 				}
 
-				object = object.invoke(((VarNode) node.names().get(n)).var(),
+				object = object.invoke((String) visit(node.names(n)),
 						arguments.toArray(new PObject[0]));
 			} else {
 				object = object.invoke(((VarNode) node.names().get(n)).var());

@@ -42,6 +42,11 @@ public class PObject implements Comparable<PObject> {
 		}
 	}
 
+	public boolean respondTo(String name) {
+		return functions.containsKey(name)
+				|| (prototype != null && prototype.respondTo(name));
+	}
+
 	public void dict(String name, PObject value) {
 		this.dict.put(name, value);
 	}

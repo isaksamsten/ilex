@@ -13,6 +13,26 @@ public class PNumber extends PObject {
 		return value;
 	}
 
+	public double doubleValue() {
+		return value.doubleValue();
+	}
+
+	public float floatValue() {
+		return value.floatValue();
+	}
+
+	public int intValue() {
+		return value.intValue();
+	}
+
+	public long longValue() {
+		return value.longValue();
+	}
+
+	public short shortValue() {
+		return value.shortValue();
+	}
+
 	public boolean isFloat() {
 		return value instanceof Float || value instanceof Double;
 	}

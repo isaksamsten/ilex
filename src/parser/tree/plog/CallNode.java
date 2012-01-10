@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import parser.tree.Node;
+
 public class CallNode extends TermNode {
 
 	private List<List<ExprNode>> arguments = new ArrayList<List<ExprNode>>();
@@ -24,7 +26,7 @@ public class CallNode extends TermNode {
 	}
 
 	public List<ExprNode> arguments(int i) {
-		return Collections.unmodifiableList(arguments.get(i - 1));
+		return Collections.unmodifiableList(arguments.get(i));
 	}
 
 	public void add(TermNode name) {
@@ -38,6 +40,10 @@ public class CallNode extends TermNode {
 	@Override
 	public Object visit(Visitor visitor) {
 		return visitor.visitCall(this);
+	}
+
+	public TermNode names(int i) {
+		return names.get(i);
 	}
 
 }

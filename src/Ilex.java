@@ -108,6 +108,10 @@ public class Ilex {
 			stack.enter("system").putAttribute(TableKey.CONSTANT,
 					Builtin.system);
 
+			stack.enter("test").putAttribute(TableKey.CONSTANT, Builtin.test);
+
+			stack.enter("pfunc").putAttribute(TableKey.CONSTANT, Builtin.pfunc);
+
 			if (arguments.size() > 0) {
 				file = arguments.get(0);
 				Source source = new BufferedSource(new File(file));

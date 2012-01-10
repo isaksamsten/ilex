@@ -31,7 +31,7 @@ public class ExpressionParser extends Parser<ExprNode> {
 			node = new ExprNode(tokenizer().source().line());
 
 			TermNode lhs = null;
-			if (tokenizer().peek().type() == TokenType.DOT) {
+			if (CallParser.START.contains(tokenizer().peek().type())) {
 				CallParser callparser = new CallParser(this);
 				lhs = callparser.parse(token);
 			} else {

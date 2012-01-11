@@ -1,0 +1,12 @@
+{
+  car := object.clone()
+  car.wheel := 4
+  car.roof := 2
+  
+  bmw := car.clone()
+  bmw.roof := 3
+  
+  write "car.roof='", car.roof, "' bmw.roof='", bmw.roof,"' \n"
+  write "Operator ", car.roof * bmw.roof, "\n"
+  write "Function ", car.roof.mul(bmw.roof)
+}

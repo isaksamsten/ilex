@@ -25,8 +25,7 @@ public class StatementParser extends Parser {
 	public Node parse(Token token) throws IOException {
 		Node node = null;
 		Parser parser = null;
-		if (token.type() == TokenType.IDENTIFIER
-				|| ExpressionParser.START.contains(token.type())) {
+		if (ExpressionParser.START.contains(token.type())) {
 			parser = new IdentifierParser(this);
 		} else if (token.type() == TokenType.READ) {
 			parser = new ReadParser(this);

@@ -45,9 +45,7 @@ public class AttributeParser extends Parser {
 					if (n != null) {
 						node.add(n);
 						token = tokenizer().next();
-						if (!FOLL.contains(token.type())
-								&& !ExpressionParser.OPERATORS.contains(token
-										.type())) {
+						if (ATTR.contains(token.type())) {
 							var = tokenizer().next();
 						}
 					}

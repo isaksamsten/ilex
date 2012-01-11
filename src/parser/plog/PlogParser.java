@@ -20,7 +20,7 @@ public class PlogParser extends Parser {
 		Node root = null;
 		long elapsed = System.currentTimeMillis();
 		try {
-			StatementParser assignment = new StatementParser(this);
+			StatementParser assignment = new StatementParser(this, true);
 			root = assignment.parse(token);
 		} catch (IOException e) {
 			MessageHandler.getInstance().fatal(ErrorCode.IO_ERROR, e);

@@ -213,12 +213,12 @@ public final class Builtin {
 			}
 		});
 
-		pfunc.func(new PFunction("__call__", 0) {
+		pfunc.func(new PFunction("__call__", -1) {
 
 			@Override
 			protected PObject execute(PObject self, PObject... args) {
 				PFunction function = (PFunction) self;
-				return function.invoke(function.binder());
+				return function.invoke(function.binder(), args);
 			}
 		});
 

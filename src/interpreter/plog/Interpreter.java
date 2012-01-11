@@ -143,7 +143,12 @@ public class Interpreter extends Visitor {
 
 	@Override
 	public Object visitLookupVar(LookupVarNode n) {
-		return stack.lookup(n.var());
+		PObject obj = stack.lookup(n.var());
+		if(obj != null)
+			return obj;
+		else
+			throw new RuntimeException(n.var() + " is not in __dict__");
+				
 	}
 
 	@Override
@@ -155,7 +160,12 @@ public class Interpreter extends Visitor {
 	public Object visitCall(CallNode node) {
 		PObject object = (PObject) visit(node.name());
 		if (object.respondTo("__call__")) {
-			object = object.invoke(stack.local(), "__call__");
+			if (node.argument() != null) {
+				PObject[] args = (PObject[]) visit(node.argument());
+				object = object.invoke(stack.local(), "__call__", args);
+			} else {
+				object = object.invoke(stack.local(), "__call__");
+			}
 		} else {
 			throw new IntepreterException(object.toString()
 					+ " is not callable.");
@@ -165,7 +175,12 @@ public class Interpreter extends Visitor {
 
 	@Override
 	public Object visitExprList(ExprListNode exprListNode) {
-		throw new UnsupportedOperationException();
+		List<PObject> obj = new ArrayList<PObject>();
+		for (Node n : exprListNode.elements()) {
+			obj.add((PObject) visit(n));
+		}
+
+		return obj.toArray(new PObject[0]);
 	}
 
 	@Override

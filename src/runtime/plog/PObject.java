@@ -76,12 +76,7 @@ public class PObject implements Comparable<PObject> {
 			}
 		}
 
-		if (func == null) {
-			throw new RuntimeException(str + " is not in __dict__ of "
-					+ toString());
-		} else {
-			return func;
-		}
+		return func;
 	}
 
 	public void func(PFunction f) {

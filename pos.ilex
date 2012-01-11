@@ -1,4 +1,4 @@
-begin
+{
   write "Enter a number: "
   read max
   init := 0
@@ -9,4 +9,4 @@ begin
      }
      init := init + 1
   }
-end
+}

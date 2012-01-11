@@ -1,5 +1,6 @@
 package parser.plog;
 
+import java.awt.EventQueue;
 import java.io.IOException;
 import java.util.EnumSet;
 
@@ -15,6 +16,9 @@ public class AttributeParser extends Parser {
 	public static final EnumSet<TokenType> ATTR = EnumSet.of(TokenType.DOT,
 			TokenType.LEFT_PAREN);
 
+	public static final EnumSet<TokenType> FOLL = EnumSet.of(
+			TokenType.COLON_EQUAL, TokenType.COMMA);
+
 	public AttributeParser(Parser parent) {
 		super(parent);
 	}
@@ -24,26 +28,34 @@ public class AttributeParser extends Parser {
 		AttrNode node = null;
 		if (ExpressionParser.START.contains(token.type())) {
 			node = new AttrNode(startLine());
-			while (ExpressionParser.START.contains(token.type())) {
-				Node n = null;
-				if (tokenizer().peek().type() == TokenType.LEFT_PAREN) {
-					CallParser call = new CallParser(this);
-					n = call.parse(token);
+			token = tokenizer().peek();
+			Token var = tokenizer().current();
+			if (ATTR.contains(token.type())) {
+				while (ATTR.contains(token.type())) {
+					Node n = null;
+					if (tokenizer().peek().type() == TokenType.LEFT_PAREN) {
+						CallParser call = new CallParser(this);
+						n = call.parse(var);
+					} else if (ExpressionParser.START.contains(var.type())) {
+						n = ParseUtil.value(var);
+					} else {
+						error(ErrorCode.INVALID_EXPR);
+					}
 
-					token = tokenizer().next(); // consume dot
-				} else if (ExpressionParser.START.contains(token.type())) {
-					n = ParseUtil.value(token);
-					token = tokenizer().next(); // consume DOTw
-				} else {
-					error(ErrorCode.INVALID_EXPR);
-				}
-
-				if (n != null) {
-					node.add(n);
-					if (token.type() == TokenType.DOT) //TODO:fulhack
+					if (n != null) {
+						node.add(n);
 						token = tokenizer().next();
-				}
+						if (!FOLL.contains(token.type())
+								&& !ExpressionParser.OPERATORS.contains(token
+										.type())) {
+							var = tokenizer().next();
+						}
+					}
 
+				}
+			} else {
+				node.add(ParseUtil.value(tokenizer().current()));
+				tokenizer().next();
 			}
 
 		} else {

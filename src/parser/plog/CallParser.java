@@ -40,6 +40,7 @@ public class CallParser extends Parser {
 				}
 			} else {
 				call.name(root);
+				tokenizer().next();
 			}
 			// else {
 			// error(ErrorCode.MISSING_DOT);
@@ -83,9 +84,9 @@ public class CallParser extends Parser {
 	private void parseExprList(Token token, CallNode call) throws IOException {
 		if (token.type() != TokenType.RIGHT_PAREN) {
 			ExpressionListParser list = new ExpressionListParser(this);
-			ExprListNode node = (ExprListNode) list.parse(token);
+			Node node = list.parse(token);
 			if (node != null) {
-				call.add(node);
+				call.argument(node);
 			}
 		}
 	}

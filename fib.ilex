@@ -1,6 +1,6 @@
 # Calculate the nth Fibonacci number
 #
-begin
+{
   u := 0
   v := 1
   t := 0
@@ -15,4 +15,4 @@ begin
      i := i + 1
   }
   write "The ", nth, " fibonacci number is ", v  
-end
+}

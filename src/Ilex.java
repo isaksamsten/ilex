@@ -27,6 +27,7 @@ import parser.plog.PlogTokenizer;
 import parser.tree.Node;
 import runtime.plog.Builtin;
 import runtime.plog.PModule;
+import runtime.plog.PString;
 import token.Token;
 
 public class Ilex {
@@ -84,7 +85,7 @@ public class Ilex {
 
 	public static void main(String[] args) {
 		try {
-			 args = new String[] { "factorial.ilex" };
+			 args = new String[] { "proto.ilex" };
 
 			MessageHandler.getInstance().addParseListener(errorListener);
 			MessageHandler.getInstance().addSourceListener(sourceListener);
@@ -96,31 +97,26 @@ public class Ilex {
 				MessageHandler.getInstance().addParseListener(parseDebug);
 			}
 
-			Stack stack = Stack.getInstance();
-			stack.enter("string").putAttribute(TableKey.CONSTANT,
-					Builtin.string);
-			stack.enter("object").putAttribute(TableKey.CONSTANT,
-					Builtin.object);
-			stack.enter("true").putAttribute(TableKey.CONSTANT, Builtin.ptrue);
-			stack.enter("false")
-					.putAttribute(TableKey.CONSTANT, Builtin.pfalse);
+			PModule mod = new PModule(file);
 
-			stack.enter("system").putAttribute(TableKey.CONSTANT,
-					Builtin.system);
-
-			stack.enter("test").putAttribute(TableKey.CONSTANT, Builtin.test);
-
-			stack.enter("pfunc").putAttribute(TableKey.CONSTANT, Builtin.pfunc);
+			mod.dict("string", Builtin.string);
+			mod.dict("object", Builtin.object);
+			mod.dict("true", Builtin.ptrue);
+			mod.dict("false", Builtin.pfalse);
+			mod.dict("system", Builtin.system);
+			mod.dict("test", Builtin.test);
+			mod.dict("pfunc", Builtin.pfunc);
 
 			if (arguments.size() > 0) {
 				file = arguments.get(0);
+				mod.dict("__file__", new PString(file));
 				Source source = new BufferedSource(new File(file));
 				Tokenizer tokenizer = new PlogTokenizer(source);
 
 				Parser parser = new PlogParser(tokenizer);
 				Node root = parser.parse();
 				if (!parser.errors()) {
-					Visitor interpreter = new Interpreter(new PModule(file));
+					Visitor interpreter = new Interpreter(mod);
 					interpreter.visit(root);
 				}
 			} else {
@@ -130,7 +126,7 @@ public class Ilex {
 
 				Parser parser = null;
 				Scanner sc = new Scanner(System.in);
-				PModule mod = new PModule(file);
+				mod.dict("__file__", new PString(file));
 				while (true) {
 					System.out.print(">> ");
 					String code = sc.nextLine();

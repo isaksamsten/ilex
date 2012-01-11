@@ -1,28 +1,29 @@
 package parser.tree.plog;
 
+import parser.tree.Node;
 import interpreter.plog.Visitor;
 
 public class AssignNode extends StmtNode {
-	private VarNode var;
-	private ExprNode expr;
+	private Node var;
+	private Node expr;
 
 	public AssignNode(int line) {
 		super(line);
 	}
 
-	public VarNode var() {
+	public Node var() {
 		return var;
 	}
 
-	public void var(VarNode var) {
+	public void var(Node var) {
 		this.var = var;
 	}
 
-	public ExprNode expr() {
+	public Node expr() {
 		return this.expr;
 	}
 
-	public void expr(ExprNode expr) {
+	public void expr(Node expr) {
 		this.expr = expr;
 	}
 

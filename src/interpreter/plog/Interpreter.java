@@ -1,5 +1,6 @@
 package interpreter.plog;
 
+import interpreter.PObjectStack;
 import interpreter.Stack;
 import interpreter.TableEntry;
 import interpreter.TableKey;
@@ -8,9 +9,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import parser.tree.Node;
 import parser.tree.plog.AssignNode;
+import parser.tree.plog.AttrNode;
 import parser.tree.plog.CallNode;
 import parser.tree.plog.CompNode;
+import parser.tree.plog.ExprListNode;
 import parser.tree.plog.ExprNode;
 import parser.tree.plog.IfNode;
 import parser.tree.plog.LookupVarNode;
@@ -21,21 +25,27 @@ import parser.tree.plog.StringNode;
 import parser.tree.plog.VarNode;
 import parser.tree.plog.WhileNode;
 import parser.tree.plog.WriteNode;
-import runtime.plog.PFunction;
+import runtime.plog.PModule;
 import runtime.plog.PNumber;
 import runtime.plog.PObject;
 
 public class Interpreter extends Visitor {
 
-	private static final Stack stack = Stack.getInstance();
+	// private static final Stack stack = Stack.getInstance();
 	private static final Scanner in = new Scanner(System.in);
+
+	private PObjectStack stack;
+
+	public Interpreter(PModule module) {
+		stack = new PObjectStack(module);
+	}
 
 	@Override
 	public Object visitComp(CompNode n) {
 		PObject a = (PObject) visit(n.lhs());
 		PObject b = (PObject) visit(n.rhs());
 
-		return a.invoke(n.operator().function(), b);
+		return a.invoke(stack.local(), n.operator().function(), b);
 	}
 
 	@Override
@@ -45,19 +55,29 @@ public class Interpreter extends Visitor {
 		if (b == null) {
 			return a;
 		}
-		return a.invoke(n.operator().function(), b);
+		return a.invoke(stack.local(), n.operator().function(), b);
 	}
 
 	@Override
 	public Object visitAssign(AssignNode n) {
-		String var = (String) visit(n.var());
-		Object value = visit(n.expr());
+		AttrNode node = (AttrNode) ((ExprNode) n.var()).lhs();
 
-		TableEntry entry = stack.lookup(var);
-		if (entry == null) {
-			entry = stack.enter(var);
+		if (node.elements().size() != 1) {
+			PObject object = (PObject) visit(node.elements().get(0));
+			for (int i = 1; i < node.elements().size() - 1; i++) {
+				stack.push(object);
+				object = (PObject) visit(node.elements().get(i));
+				stack.pop();
+			}
+			stack.push(object);
 		}
-		entry.putAttribute(TableKey.CONSTANT, value);
+
+		PObject value = (PObject) visit(n.expr());
+
+		String var = ((VarNode) node.elements().get(node.elements().size() - 1))
+				.var();
+		stack.enter(var, value);
+		stack.pop();
 
 		return null;
 	}
@@ -74,7 +94,7 @@ public class Interpreter extends Visitor {
 
 	@Override
 	public Object visitStmtList(StmtListNode n) {
-		visit(n.statements());
+		visit(n.elements());
 		return null;
 	}
 
@@ -95,15 +115,15 @@ public class Interpreter extends Visitor {
 		String var = (String) visit(n.var());
 		int value = in.nextInt();
 
-		stack.enter(var).putAttribute(TableKey.CONSTANT, new PNumber(value));
+		stack.enter(var, new PNumber(value));
 		return value;
 	}
 
 	@Override
 	public Object visitWrite(WriteNode n) {
-		for (ExprNode expr : n.expr()) {
+		for (Node expr : n.elements()) {
 			PObject value = (PObject) visit(expr);
-			System.out.print(value.invoke("str"));
+			System.out.print(value.invoke(stack.local(), "str"));
 		}
 
 		return null;
@@ -123,12 +143,7 @@ public class Interpreter extends Visitor {
 
 	@Override
 	public Object visitLookupVar(LookupVarNode n) {
-		TableEntry entry = stack.lookup(n.var());
-		if (entry != null)
-			return entry.getAttribute(TableKey.CONSTANT);
-		else
-			throw new IntepreterException("Var '" + n.var()
-					+ "' not initialized");
+		return stack.lookup(n.var());
 	}
 
 	@Override
@@ -138,29 +153,29 @@ public class Interpreter extends Visitor {
 
 	@Override
 	public Object visitCall(CallNode node) {
-		PObject object = (PObject) visit(node.names().get(0));
+		PObject object = (PObject) visit(node.name());
 		if (object.respondTo("__call__")) {
-			List<PObject> arguments = new ArrayList<PObject>();
-			for (ExprNode arg : node.arguments(0)) {
-				arguments.add((PObject) visit(arg));
-			}
-			object = object.invoke("__call__",
-					arguments.toArray(new PObject[0]));
+			object = object.invoke(stack.local(), "__call__");
+		} else {
+			throw new IntepreterException(object.toString()
+					+ " is not callable.");
 		}
-		for (int n = 1; n < node.names().size(); n++) {
-			if (node.arguments(n - 1).size() > 0) {
-				List<PObject> arguments = new ArrayList<PObject>();
-				for (ExprNode arg : node.arguments(n - 1)) {
-					arguments.add((PObject) visit(arg));
-				}
+		return object;
+	}
 
-				object = object.invoke((String) visit(node.names(n)),
-						arguments.toArray(new PObject[0]));
-			} else {
-				object = object.invoke(((VarNode) node.names().get(n)).var());
-			}
+	@Override
+	public Object visitExprList(ExprListNode exprListNode) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public Object visitAttr(AttrNode node) {
+		PObject object = (PObject) visit(node.elements().get(0));
+		for (int n = 1; n < node.elements().size(); n++) {
+			stack.push(object);
+			object = (PObject) visit(node.elements().get(n));
+			stack.pop();
 		}
-
 		return object;
 	}
 }

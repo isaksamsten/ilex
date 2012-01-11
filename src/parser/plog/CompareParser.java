@@ -4,28 +4,28 @@ import java.io.IOException;
 import java.util.EnumSet;
 
 import parser.Parser;
+import parser.tree.Node;
 import parser.tree.plog.CompNode;
-import parser.tree.plog.ExprNode;
 import parser.tree.plog.Operator;
 import token.Token;
 import token.plog.ErrorCode;
 import token.plog.TokenType;
 
-public class CompareParser extends Parser<CompNode> {
+public class CompareParser extends Parser {
 
 	private EnumSet<TokenType> compareOps = EnumSet.of(TokenType.GT,
 			TokenType.LT, TokenType.LTE, TokenType.GTE, TokenType.EQUAL);
 
-	public CompareParser(Parser<?> parent) {
+	public CompareParser(Parser parent) {
 		super(parent);
 	}
 
 	@Override
-	public CompNode parse(Token token) throws IOException {
+	public Node parse(Token token) throws IOException {
 		CompNode node = null;
 
 		ExpressionParser parser = new ExpressionParser(this);
-		ExprNode expr = parser.parse(token);
+		Node expr = parser.parse(token);
 
 		token = tokenizer().current();
 		if (expr != null) {

@@ -28,7 +28,7 @@ public abstract class Tokenizer {
 
 	public Token peek() throws IOException {
 		if (peek == null) {
-			peek = next();
+			peek = extract();
 		}
 		return peek;
 	}

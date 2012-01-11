@@ -6,18 +6,17 @@ import message.MessageHandler;
 import parser.Parser;
 import parser.Tokenizer;
 import parser.tree.Node;
-import parser.tree.Tree;
 import token.Token;
 import token.plog.ErrorCode;
 
-public class PlogParser extends Parser<Tree> {
+public class PlogParser extends Parser {
 
 	public PlogParser(Tokenizer tokenizer) {
 		super(tokenizer);
 	}
 
 	@Override
-	public Tree parse(Token token) throws IOException {
+	public Node parse(Token token) throws IOException {
 		Node root = null;
 		long elapsed = System.currentTimeMillis();
 		try {
@@ -30,6 +29,6 @@ public class PlogParser extends Parser<Tree> {
 		elapsed = System.currentTimeMillis() - elapsed;
 		MessageHandler.getInstance().parserSummary(elapsed);
 
-		return new Tree(root);
+		return root;
 	}
 }

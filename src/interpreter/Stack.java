@@ -2,6 +2,8 @@ package interpreter;
 
 import java.util.ArrayList;
 
+import runtime.plog.PObject;
+
 public class Stack {
 	private static Stack instance = null;
 
@@ -13,6 +15,7 @@ public class Stack {
 	}
 
 	private ArrayList<Table> stack = new ArrayList<Table>();
+		
 	private int currentLevel = 0;
 
 	private Stack() {

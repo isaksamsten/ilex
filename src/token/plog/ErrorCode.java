@@ -15,7 +15,7 @@ public enum ErrorCode {
 			"Expected 'begin' 'end'."), EXPECTED_BEGIN("Expected 'begin'."), MISSING_DOT(
 			"Expected a DOT."), EXPECTED_IDENTIFIER("Expected an identifier."), EXPECT_END_PAREN(
 			"Unexpected end of call."), EXPECT_START_PAREN(
-			"Unexpected start of call.");
+			"Unexpected start of call."), ASSIGN_TO_FUNCTION_CALL("Can't assign to function calls.");
 	private String desc;
 
 	private ErrorCode(String desc) {

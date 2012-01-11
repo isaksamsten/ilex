@@ -14,7 +14,7 @@ public class Tree {
 	public Node root() {
 		return this.root;
 	}
-	
+
 	@Override
 	public String toString() {
 		return root.toTreeString();

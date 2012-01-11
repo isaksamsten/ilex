@@ -1,22 +1,23 @@
 package parser.tree.plog;
 
+import parser.tree.Node;
 import interpreter.plog.Visitor;
 
 public class ExprNode extends StmtNode {
 
-	private TermNode lhs;
+	private Node lhs;
 	private Operator operator;
-	private ExprNode rhs;
+	private Node rhs;
 
 	public ExprNode(int line) {
 		super(line);
 	}
 
-	public TermNode lhs() {
+	public Node lhs() {
 		return lhs;
 	}
 
-	public void lhs(TermNode lhs) {
+	public void lhs(Node lhs) {
 		this.lhs = lhs;
 	}
 
@@ -28,11 +29,11 @@ public class ExprNode extends StmtNode {
 		this.operator = operator;
 	}
 
-	public ExprNode rhs() {
+	public Node rhs() {
 		return rhs;
 	}
 
-	public void rhs(ExprNode rhs) {
+	public void rhs(Node rhs) {
 		this.rhs = rhs;
 	}
 

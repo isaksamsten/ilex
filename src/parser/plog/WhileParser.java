@@ -3,25 +3,24 @@ package parser.plog;
 import java.io.IOException;
 
 import parser.Parser;
-import parser.tree.plog.CompNode;
-import parser.tree.plog.StmtListNode;
+import parser.tree.Node;
 import parser.tree.plog.WhileNode;
 import token.Token;
 import token.plog.ErrorCode;
 
-public class WhileParser extends Parser<WhileNode> {
+public class WhileParser extends Parser {
 
-	public WhileParser(Parser<?> parent) {
+	public WhileParser(Parser parent) {
 		super(parent);
 	}
 
 	@Override
-	public WhileNode parse(Token token) throws IOException {
+	public Node parse(Token token) throws IOException {
 		WhileNode node = null;
 		token = tokenizer().next(); // consume while
 
 		CompareParser compParser = new CompareParser(this);
-		CompNode compNode = compParser.parse(token);
+		Node compNode = compParser.parse(token);
 
 		token = tokenizer().current();
 		if (compNode != null) {
@@ -30,7 +29,7 @@ public class WhileParser extends Parser<WhileNode> {
 
 			token = tokenizer().current();
 			StatementListParser slp = new StatementListParser(this);
-			StmtListNode statementListNode = slp.parse(token);
+			Node statementListNode = slp.parse(token);
 
 			if (statementListNode != null) {
 				node.statementList(statementListNode);

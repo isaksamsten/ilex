@@ -22,6 +22,7 @@ public final class Builtin {
 			return new PObject();
 		}
 	};
+	public static final PObject pmodule = new PObject("Module", object);
 
 	static {
 
@@ -138,7 +139,7 @@ public final class Builtin {
 
 			@Override
 			protected PObject execute(PObject self, PObject... args) {
-				PNumber cmp = (PNumber) self.invoke("cmp", args);
+				PNumber cmp = (PNumber) self.invoke(self, "cmp", args);
 				if (cmp.value().intValue() < 0)
 					return PTrue.instance;
 				else
@@ -150,7 +151,7 @@ public final class Builtin {
 
 			@Override
 			protected PObject execute(PObject self, PObject... args) {
-				PNumber cmp = (PNumber) self.invoke("cmp", args);
+				PNumber cmp = (PNumber) self.invoke(self, "cmp", args);
 				if (cmp.value().intValue() > 0)
 					return PTrue.instance;
 				else
@@ -162,7 +163,7 @@ public final class Builtin {
 
 			@Override
 			protected PObject execute(PObject self, PObject... args) {
-				PNumber cmp = (PNumber) self.invoke("cmp", args);
+				PNumber cmp = (PNumber) self.invoke(self, "cmp", args);
 				if (cmp.value().intValue() == 0)
 					return PTrue.instance;
 				else
@@ -174,7 +175,7 @@ public final class Builtin {
 
 			@Override
 			protected PObject execute(PObject self, PObject... args) {
-				PNumber cmp = (PNumber) self.invoke("cmp", args);
+				PNumber cmp = (PNumber) self.invoke(self, "cmp", args);
 				if (cmp.value().intValue() <= 0)
 					return PTrue.instance;
 				else
@@ -186,7 +187,7 @@ public final class Builtin {
 
 			@Override
 			protected PObject execute(PObject self, PObject... args) {
-				PNumber cmp = (PNumber) self.invoke("cmp", args);
+				PNumber cmp = (PNumber) self.invoke(self, "cmp", args);
 				if (cmp.value().intValue() >= 0)
 					return PTrue.instance;
 				else
@@ -203,11 +204,21 @@ public final class Builtin {
 			}
 		});
 
+		pmodule.func(new PFunction("str", 0) {
+
+			@Override
+			protected PObject execute(PObject self, PObject... args) {
+				PObject file = self.dict("__file__");
+				return new PString("Module '" + file + "'");
+			}
+		});
+
 		pfunc.func(new PFunction("__call__", 0) {
 
 			@Override
 			protected PObject execute(PObject self, PObject... args) {
-				return ((PFunction) self).invoke(self, args);
+				PFunction function = (PFunction) self;
+				return function.invoke(function.binder());
 			}
 		});
 

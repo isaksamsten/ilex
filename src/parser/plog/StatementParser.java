@@ -3,34 +3,31 @@ package parser.plog;
 import java.io.IOException;
 
 import parser.Parser;
-import parser.tree.plog.StmtNode;
+import parser.tree.Node;
 import token.Token;
 import token.plog.ErrorCode;
 import token.plog.TokenType;
 
-public class StatementParser extends Parser<StmtNode> {
+public class StatementParser extends Parser {
 
 	private boolean silent = false;
 
-	public StatementParser(Parser<?> parent, boolean silent) {
+	public StatementParser(Parser parent, boolean silent) {
 		super(parent);
 		this.silent = silent;
 	}
-	
-	public StatementParser(Parser<?> parent) {
+
+	public StatementParser(Parser parent) {
 		super(parent);
 	}
-	
-	
 
-	public StmtNode parse(Token token) throws IOException {
-		StmtNode node = null;
-		Parser<? extends StmtNode> parser = null;
+	@Override
+	public Node parse(Token token) throws IOException {
+		Node node = null;
+		Parser parser = null;
 		if (token.type() == TokenType.IDENTIFIER
-				&& tokenizer().peek().type() == TokenType.COLON_EQUAL) {
-			parser = new AssignmentParser(this);
-		} else if (ExpressionParser.START.contains(token.type())) {
-			parser = new ExpressionParser(this);
+				|| ExpressionParser.START.contains(token.type())) {
+			parser = new IdentifierParser(this);
 		} else if (token.type() == TokenType.READ) {
 			parser = new ReadParser(this);
 		} else if (token.type() == TokenType.WRITE) {
@@ -41,13 +38,14 @@ public class StatementParser extends Parser<StmtNode> {
 			parser = new WhileParser(this);
 		} else if (token.type() == TokenType.IF) {
 			parser = new IfParser(this);
-		} else {
-			if (!silent)
-				error(ErrorCode.INVALID_STATEMENT_END);
-		}
-
+		} 
+	
 		if (parser != null) {
 			node = parser.parse(token);
+		}
+		
+		if (!silent && node == null) {
+			error(ErrorCode.INVALID_STATEMENT_END);
 		}
 
 		return node;

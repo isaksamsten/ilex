@@ -1,7 +1,6 @@
 import interpreter.Stack;
 import interpreter.TableEntry;
 import interpreter.TableKey;
-import interpreter.plog.IntepreterException;
 import interpreter.plog.Interpreter;
 import interpreter.plog.Visitor;
 
@@ -25,8 +24,9 @@ import parser.Source;
 import parser.Tokenizer;
 import parser.plog.PlogParser;
 import parser.plog.PlogTokenizer;
-import parser.tree.Tree;
+import parser.tree.Node;
 import runtime.plog.Builtin;
+import runtime.plog.PModule;
 import token.Token;
 
 public class Ilex {
@@ -84,7 +84,7 @@ public class Ilex {
 
 	public static void main(String[] args) {
 		try {
-			// args = new String[] { "factorial.ilex" };
+			 args = new String[] { "factorial.ilex" };
 
 			MessageHandler.getInstance().addParseListener(errorListener);
 			MessageHandler.getInstance().addSourceListener(sourceListener);
@@ -117,19 +117,20 @@ public class Ilex {
 				Source source = new BufferedSource(new File(file));
 				Tokenizer tokenizer = new PlogTokenizer(source);
 
-				Parser<Tree> parser = new PlogParser(tokenizer);
-				Tree tree = parser.parse();
+				Parser parser = new PlogParser(tokenizer);
+				Node root = parser.parse();
 				if (!parser.errors()) {
-					Visitor interpreter = new Interpreter();
-					interpreter.visit(tree.root());
+					Visitor interpreter = new Interpreter(new PModule(file));
+					interpreter.visit(root);
 				}
 			} else {
 				file = "<stdin>";
 				Source source = null;
 				Tokenizer tokenizer = null;
 
-				Parser<Tree> parser = null;
+				Parser parser = null;
 				Scanner sc = new Scanner(System.in);
+				PModule mod = new PModule(file);
 				while (true) {
 					System.out.print(">> ");
 					String code = sc.nextLine();
@@ -140,11 +141,11 @@ public class Ilex {
 					parser = new PlogParser(tokenizer);
 					if (code.trim().length() == 0)
 						continue;
-					Tree tree = parser.parse();
+					Node root = parser.parse();
 					if (!parser.errors()) {
 						try {
-							Visitor interpreter = new Interpreter();
-							Object value = interpreter.visit(tree.root());
+							Visitor interpreter = new Interpreter(mod);
+							Object value = interpreter.visit(root);
 							if (value != null) {
 								System.out.println(value);
 							}

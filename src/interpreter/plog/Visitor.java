@@ -4,8 +4,10 @@ import java.util.List;
 
 import parser.tree.Node;
 import parser.tree.plog.AssignNode;
+import parser.tree.plog.AttrNode;
 import parser.tree.plog.CallNode;
 import parser.tree.plog.CompNode;
+import parser.tree.plog.ExprListNode;
 import parser.tree.plog.ExprNode;
 import parser.tree.plog.IfNode;
 import parser.tree.plog.LookupVarNode;
@@ -55,4 +57,8 @@ public abstract class Visitor {
 	public abstract Object visitString(StringNode n);
 
 	public abstract Object visitCall(CallNode callNode);
+
+	public abstract Object visitExprList(ExprListNode exprListNode);
+
+	public abstract Object visitAttr(AttrNode attrNode);
 }

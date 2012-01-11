@@ -7,6 +7,7 @@ public abstract class PFunction extends PObject {
 		super(name, Builtin.pfunc);
 		this.arity = arity;
 	}
+
 	
 	public PObject invoke(PObject self, PObject... args) {
 		if (args.length != arity) {

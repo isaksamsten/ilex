@@ -13,6 +13,7 @@ public class PString extends PObject {
 		return this.value;
 	}
 
+	@Override
 	public int compareTo(PObject o) {
 		return value.compareTo(((PString) o).value());
 	};

@@ -1,31 +1,37 @@
 package parser.tree.plog;
 
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-
 import interpreter.plog.Visitor;
+import parser.tree.Node;
 
-public class WriteNode extends StmtNode {
+public class WriteNode extends AbstractListNode {
 
-	private List<ExprNode> expr = new LinkedList<ExprNode>();
-
+	private Node expr;
+	private Node restExpr;
+	
 	public WriteNode(int line) {
 		super(line);
 	}
-
-	public List<ExprNode> expr() {
-		return Collections.unmodifiableList(expr);
+	
+	public Node expr() {
+		return expr;
 	}
-
-	public void add(ExprNode n) {
-		expr.add(n);
+	
+	public void expr(Node n) {
+		this.expr = n;
+	}
+	
+	public Node restExpr() {
+		return restExpr;
+	}
+	
+	public void restExpr(Node n) {
+		this.restExpr = n;
 	}
 
 	@Override
 	public String toTreeString() {
 		String str = "(" + toString() + " expr=[";
-		for (ExprNode e : expr) {
+		for (Node e : elements()) {
 			str += e.toTreeString() + ", ";
 		}
 		str += "])";

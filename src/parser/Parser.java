@@ -8,7 +8,7 @@ import message.MessageHandler;
 import token.Token;
 import token.plog.ErrorCode;
 
-public abstract class Parser<TNode> {
+public abstract class Parser {
 
 	private Tokenizer tokenizer;
 	private int startLine = 0;
@@ -18,7 +18,7 @@ public abstract class Parser<TNode> {
 		this.startLine = tokenizer().source().line();
 	}
 
-	public Parser(Parser<?> parent) {
+	public Parser(Parser parent) {
 		this(parent.tokenizer());
 	}
 
@@ -41,12 +41,12 @@ public abstract class Parser<TNode> {
 			MessageHandler.getInstance().error(token, code);
 		}
 	}
-	
+
 	protected void error(ErrorCode code) {
 		error(tokenizer().current(), code);
 	}
 
-	public TNode parse() throws IOException {
+	public Node parse() throws IOException {
 		return parse(tokenizer().next());
 	}
 
@@ -56,6 +56,6 @@ public abstract class Parser<TNode> {
 	 * @return a {@link Node} if parse was successful, otherwise null
 	 * @throws IOException
 	 */
-	public abstract TNode parse(Token t) throws IOException;
+	public abstract Node parse(Token t) throws IOException;
 
 }

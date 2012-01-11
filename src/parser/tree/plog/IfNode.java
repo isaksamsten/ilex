@@ -1,41 +1,42 @@
 package parser.tree.plog;
 
+import parser.tree.Node;
 import interpreter.plog.Visitor;
 
-public class IfNode extends StmtNode{
-	
-	private CompNode compare;
-	private StmtListNode trueStmt;
-	private StmtListNode falseStmt;
-	
+public class IfNode extends StmtNode {
+
+	private Node compare;
+	private Node trueStmt;
+	private Node falseStmt;
+
 	public IfNode(int line) {
 		super(line);
 	}
 
-	public CompNode compare() {
+	public Node compare() {
 		return compare;
 	}
 
-	public void compare(CompNode compare) {
+	public void compare(Node compare) {
 		this.compare = compare;
 	}
 
-	public StmtListNode trueStmt() {
+	public Node trueStmt() {
 		return trueStmt;
 	}
 
-	public void trueStmt(StmtListNode trueStmt) {
+	public void trueStmt(Node trueStmt) {
 		this.trueStmt = trueStmt;
 	}
 
-	public StmtListNode falseStmt() {
+	public Node falseStmt() {
 		return falseStmt;
 	}
 
-	public void falseStmt(StmtListNode falseStmt) {
+	public void falseStmt(Node falseStmt) {
 		this.falseStmt = falseStmt;
 	}
-	
+
 	@Override
 	public Object visit(Visitor visitor) {
 		return visitor.visitIf(this);

@@ -10,15 +10,15 @@ import parser.tree.Node;
 public class ArrayNode extends Node {
 
 	private List<ExprNode> elements = new LinkedList<ExprNode>();
-	
+
 	public ArrayNode(int line) {
 		super(line);
 	}
-	
+
 	public List<ExprNode> elements() {
 		return Collections.unmodifiableList(elements);
 	}
-	
+
 	public void add(ExprNode node) {
 		elements.add(node);
 	}

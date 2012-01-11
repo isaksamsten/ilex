@@ -8,12 +8,11 @@ begin
   write "Enter a number: "
   read nth 
   
-  while i <= nth
-   begin
+  while i <= nth {
      t := u + v
      u := v
      v := t
      i := i + 1
-   end
+  }
   write "The ", nth, " fibonacci number is ", v  
 end

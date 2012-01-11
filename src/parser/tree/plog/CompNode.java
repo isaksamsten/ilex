@@ -5,9 +5,9 @@ import parser.tree.Node;
 
 public class CompNode extends Node {
 
-	private ExprNode lhs;
+	private Node lhs;
 	private Operator compareOp;
-	private ExprNode rhs;
+	private Node rhs;
 
 	public CompNode(int line) {
 		super(line);
@@ -21,19 +21,19 @@ public class CompNode extends Node {
 		this.compareOp = compareOp;
 	}
 
-	public ExprNode lhs() {
+	public Node lhs() {
 		return lhs;
 	}
 
-	public void lhs(ExprNode lhs) {
+	public void lhs(Node lhs) {
 		this.lhs = lhs;
 	}
 
-	public ExprNode rhs() {
+	public Node rhs() {
 		return rhs;
 	}
 
-	public void rhs(ExprNode rhs) {
+	public void rhs(Node rhs) {
 		this.rhs = rhs;
 	}
 

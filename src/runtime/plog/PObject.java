@@ -6,8 +6,9 @@ import java.util.Map;
 public class PObject implements Comparable<PObject> {
 
 	private PObject prototype;
+	private PObject bound;
+
 	private Map<String, PObject> dict = new HashMap<String, PObject>();
-	private Map<String, PFunction> functions = new HashMap<String, PFunction>();
 
 	public PObject(String name, PObject prototype) {
 		this(prototype);
@@ -33,43 +34,59 @@ public class PObject implements Comparable<PObject> {
 		this.prototype = c;
 	}
 
-	public PObject dict(String name) {
-		PObject item = dict.get(name);
-		if (item != null) {
-			return item;
-		} else {
-			throw new RuntimeException(name + " is not in dict of");
-		}
-	}
-
 	public boolean respondTo(String name) {
-		return functions.containsKey(name)
+		return dict.containsKey(name)
 				|| (prototype != null && prototype.respondTo(name));
 	}
 
-	public void dict(String name, PObject value) {
+	public PObject dict(String name, PObject value) {
 		this.dict.put(name, value);
+		return value;
 	}
 
-	public PObject invoke(String func, PObject... args) {
-		PFunction function = func(func);
-		return function.invoke(this, args);
+	public void bind(PObject to) {
+		bound = to;
 	}
 
-	public PFunction func(String str) {
-		PFunction func = functions.get(str);
-		if (func != null) {
-			return func;
-		} else if (prototype != null && (func = prototype.func(str)) != null) {
-			return func;
-		} else {
-			throw new RuntimeException(str + " is not a function of "
+	public PObject binder() {
+		return bound;
+	}
+
+	public boolean isBound() {
+		return bound != null;
+	}
+
+	public PObject invoke(PObject self, String func, PObject... args) {
+		PFunction function = (PFunction) dict(func);
+		this.bind(self);
+		PObject value = function.invoke(this, args);
+		this.bind(null);
+		return value;
+	}
+
+	public PObject dict(String str) {
+		PObject proto = this;
+		PObject func = null;
+		while (proto != null) {
+			func = proto.dict.get(str);
+			if (func != null) {
+				break;
+			} else {
+				proto = proto.prototype;
+			}
+		}
+
+		if (func == null) {
+			throw new RuntimeException(str + " is not in __dict__ of "
 					+ toString());
+		} else {
+			return func;
 		}
 	}
 
 	public void func(PFunction f) {
-		functions.put(f.name().toString(), f);
+		f.bind(this);
+		dict.put(f.name().toString(), f);
 	}
 
 	public PObject name() {

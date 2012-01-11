@@ -1,29 +1,30 @@
 package parser.tree.plog;
 
+import parser.tree.Node;
 import interpreter.plog.Visitor;
 
 public class WhileNode extends StmtNode {
 
-	private CompNode compare;
-	private StmtListNode statementList;
+	private Node compare;
+	private Node statementList;
 
 	public WhileNode(int line) {
 		super(line);
 	}
 
-	public StmtListNode statementList() {
+	public Node statementList() {
 		return statementList;
 	}
 
-	public void statementList(StmtListNode statementList) {
+	public void statementList(Node statementList) {
 		this.statementList = statementList;
 	}
 
-	public CompNode compare() {
+	public Node compare() {
 		return compare;
 	}
 
-	public void compare(CompNode compare) {
+	public void compare(Node compare) {
 		this.compare = compare;
 	}
 

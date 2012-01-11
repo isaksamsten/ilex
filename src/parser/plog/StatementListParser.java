@@ -3,25 +3,25 @@ package parser.plog;
 import java.io.IOException;
 
 import parser.Parser;
+import parser.tree.Node;
 import parser.tree.plog.StmtListNode;
-import parser.tree.plog.StmtNode;
 import token.Token;
 import token.plog.ErrorCode;
 import token.plog.TokenType;
 
-public class StatementListParser extends Parser<StmtListNode> {
+public class StatementListParser extends Parser {
 
-	public StatementListParser(Parser<?> parent) {
+	public StatementListParser(Parser parent) {
 		super(parent);
 	}
 
 	@Override
-	public StmtListNode parse(Token token) throws IOException {
+	public Node parse(Token token) throws IOException {
 		StmtListNode stmtList = null;
 		if (token.type() == TokenType.BEGIN) {
 			token = tokenizer().next(); // consume BEGIN
 			StatementParser parser = new StatementParser(this, true);
-			StmtNode node = parser.parse(token);
+			Node node = parser.parse(token);
 
 			if (node != null) {
 				stmtList = new StmtListNode(startLine());

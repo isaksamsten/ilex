@@ -66,17 +66,18 @@ public class PObject implements Comparable<PObject> {
 
 	public PObject dict(String str) {
 		PObject proto = this;
-		PObject func = null;
+		PObject itm = null;
 		while (proto != null) {
-			func = proto.dict.get(str);
-			if (func != null) {
+			itm = proto.dict.get(str);
+			if (itm != null) {
+
 				break;
 			} else {
 				proto = proto.prototype;
 			}
 		}
 
-		return func;
+		return itm;
 	}
 
 	public void func(PFunction f) {

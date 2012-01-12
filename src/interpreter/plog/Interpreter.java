@@ -35,9 +35,11 @@ public class Interpreter extends Visitor {
 	private static final Scanner in = new Scanner(System.in);
 
 	private PObjectStack stack;
+	private PObjectStack callstack;
 
 	public Interpreter(PModule module) {
 		stack = new PObjectStack(module);
+		callstack = new PObjectStack(module);
 	}
 
 	@Override
@@ -144,11 +146,11 @@ public class Interpreter extends Visitor {
 	@Override
 	public Object visitLookupVar(LookupVarNode n) {
 		PObject obj = stack.lookup(n.var());
-		if(obj != null)
+		if (obj != null)
 			return obj;
 		else
 			throw new RuntimeException(n.var() + " is not in __dict__");
-				
+
 	}
 
 	@Override

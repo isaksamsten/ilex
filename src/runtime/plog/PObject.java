@@ -12,7 +12,7 @@ public class PObject implements Comparable<PObject> {
 
 	public PObject(String name, PObject prototype) {
 		this(prototype);
-		dict("__name__", new PString(name));
+		dict("name", new PString(name));
 	}
 
 	public PObject(String name) {
@@ -85,7 +85,7 @@ public class PObject implements Comparable<PObject> {
 	}
 
 	public PObject name() {
-		return dict("__name__");
+		return dict("name");
 	}
 
 	public boolean isTrue() {
@@ -100,7 +100,7 @@ public class PObject implements Comparable<PObject> {
 	@Override
 	public String toString() {
 		try {
-			return ((PString) dict("__name__")).toString();
+			return ((PString) dict("name")).toString();
 		} catch (Exception e) {
 			return super.toString();
 		}

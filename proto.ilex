@@ -1,12 +1,17 @@
-{
+
   car := object.clone()
   car.wheel := 4
   car.roof := 2
+  car.name := "Car"
   
   bmw := car.clone()
   bmw.roof := 3
   
   write "car.roof='", car.roof, "' bmw.roof='", bmw.roof,"' \n"
   write "Operator ", car.roof * bmw.roof, "\n"
-  write "Function ", car.roof.mul(bmw.roof)
-}
+  write "Function ", car.roof.mul(bmw.roof), "\n"
+  write "BMW got wheel: ", bmw.wheel, " and a name! ", bmw.name,"\n"
+  
+  if car.name = "Car" {
+  	write "That car is named Car"
+  }

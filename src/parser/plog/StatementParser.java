@@ -37,12 +37,15 @@ public class StatementParser extends Parser {
 			parser = new WhileParser(this);
 		} else if (token.type() == TokenType.IF) {
 			parser = new IfParser(this);
-		} 
-	
+		} else if (token.type() == TokenType.DEF) {
+			throw new UnsupportedOperationException(
+					"Can't define functions. yet.");
+		}
+
 		if (parser != null) {
 			node = parser.parse(token);
 		}
-		
+
 		if (!silent && node == null) {
 			error(ErrorCode.INVALID_STATEMENT_END);
 		}

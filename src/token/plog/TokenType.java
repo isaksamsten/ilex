@@ -8,7 +8,7 @@ import java.util.Set;
 import token.ITokenType;
 
 public enum TokenType implements ITokenType {
-	IDENTIFIER, NUMBER, STRING, END_OF_FILE, READ, WRITE, IF, ELSE, WHILE, ERROR,
+	IDENTIFIER, NUMBER, STRING, END_OF_FILE, READ, WRITE, IF, ELSE, WHILE, DEF, ERROR,
 
 	PLUS("+"), MINUS("-"), STAR("*"), SLASH("/"), PERCENT("%"), GT(">"), LT("<"), GTE(
 			">="), LTE("<="), EQUAL("="), COLON(":"), LEFT_PAREN("("), RIGHT_PAREN(

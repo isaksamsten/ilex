@@ -77,7 +77,7 @@ public class Ilex {
 		@Override
 		public void token(Token token) {
 			System.out
-					.format(">>> %-15s \t [line=%03d, pos=%d, text='%s', value='%s']\n",
+				.format(">>> %-15s \t [line=%03d, pos=%d, text='%s', value='%s']\n",
 							token.type(), token.line(), token.position(),
 							token.text(), token.value());
 		}
@@ -85,7 +85,7 @@ public class Ilex {
 
 	public static void main(String[] args) {
 		try {
-			 args = new String[] { "proto.ilex" };
+			 //args = new String[] { "proto.ilex" };
 
 			MessageHandler.getInstance().addParseListener(errorListener);
 			MessageHandler.getInstance().addSourceListener(sourceListener);
@@ -113,7 +113,7 @@ public class Ilex {
 				Source source = new BufferedSource(new File(file));
 				Tokenizer tokenizer = new PlogTokenizer(source);
 
-				Parser parser = new PlogParser(tokenizer);
+				Parser parser = new PlogParser(tokenizer, true);
 				Node root = parser.parse();
 				if (!parser.errors()) {
 					Visitor interpreter = new Interpreter(mod);

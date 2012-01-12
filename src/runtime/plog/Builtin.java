@@ -103,6 +103,16 @@ public final class Builtin {
 			}
 		});
 
+		string.func(new PFunction("cmp", 1) {
+
+			@Override
+			protected PObject execute(PObject self, PObject... args) {
+				PObject other = args[0].invoke(args[0], "str");
+				return new PNumber(((PString) self).value().compareTo(
+						((PString) other).value()));
+			}
+		});
+
 		pfalse.func(new PFunction("true", 0) {
 
 			@Override

@@ -1,12 +1,10 @@
-{
-  write "Enter a number: "
-  read max
-  init := 0
-  while init < max {
-     if init % 2 = 0 {
-	    write init
-	    write " is positive\n"
-     }
-     init := init + 1
+write "Enter a number: "
+read max
+init := 0
+while init < max {
+  if init % 2 = 0 {
+    write init
+	write " is positive\n"
   }
+  init := init + 1
 }

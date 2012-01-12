@@ -161,7 +161,7 @@ public class Interpreter extends Visitor {
 	@Override
 	public Object visitCall(CallNode node) {
 		PObject object = (PObject) visit(node.name());
-		Caller caller = new Caller(module, object);
+		CallInterpreter caller = new CallInterpreter(module, object);
 		return caller.visit(node);
 	}
 
@@ -178,7 +178,7 @@ public class Interpreter extends Visitor {
 	@Override
 	public Object visitAttr(AttrNode node) {
 		PObject object = (PObject) visit(node.elements().get(0));
-		Caller caller = new Caller(module, object);
+		CallInterpreter caller = new CallInterpreter(module, object);
 		return caller.visit(node);
 	}
 }

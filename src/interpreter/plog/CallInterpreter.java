@@ -6,12 +6,12 @@ import parser.tree.plog.VarNode;
 import runtime.plog.PModule;
 import runtime.plog.PObject;
 
-public class Caller extends Interpreter {
+public class CallInterpreter extends Interpreter {
 
 	private PObject object;
 	private PObject caller;
 
-	public Caller(PModule module, PObject caller) {
+	public CallInterpreter(PModule module, PObject caller) {
 		super(module);
 		object = caller;
 		this.caller = caller;

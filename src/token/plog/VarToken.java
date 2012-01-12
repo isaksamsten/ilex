@@ -16,7 +16,7 @@ public class VarToken extends Token {
 		StringBuilder textBuilder = new StringBuilder();
 
 		char current = source().current();
-		while (Character.isLetterOrDigit(current)) {
+		while (Character.isLetterOrDigit(current) || current == '_') {
 			textBuilder.append(current);
 			current = source().next();
 		}

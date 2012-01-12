@@ -27,7 +27,7 @@ public class PlogTokenizer extends Tokenizer {
 		char currentChar = source().current();
 		if (currentChar == Source.EOF) {
 			token = new EofToken(source());
-		} else if (Character.isLetter(currentChar)) {
+		} else if (Character.isLetter(currentChar) || currentChar == '_') {
 			token = new VarToken(source());
 		} else if (TokenType.isSpecial(String.valueOf(currentChar))) {
 			token = new SpecialToken(source());

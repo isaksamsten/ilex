@@ -2,8 +2,6 @@ package interpreter;
 
 import java.util.ArrayList;
 
-import runtime.plog.PObject;
-
 public class Stack {
 	private static Stack instance = null;
 

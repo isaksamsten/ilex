@@ -1,6 +1,5 @@
 package parser.plog;
 
-import java.awt.EventQueue;
 import java.io.IOException;
 import java.util.EnumSet;
 

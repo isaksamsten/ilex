@@ -1,10 +1,6 @@
 package interpreter.plog;
 
 import interpreter.PObjectStack;
-import interpreter.Stack;
-import interpreter.TableEntry;
-import interpreter.TableKey;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -35,11 +31,15 @@ public class Interpreter extends Visitor {
 	private static final Scanner in = new Scanner(System.in);
 
 	private PObjectStack stack;
-	private PObjectStack callstack;
+	private PModule module;
 
 	public Interpreter(PModule module) {
 		stack = new PObjectStack(module);
-		callstack = new PObjectStack(module);
+		this.module = module;
+	}
+	
+	public PModule module() {
+		return this.module;
 	}
 
 	@Override
@@ -161,18 +161,8 @@ public class Interpreter extends Visitor {
 	@Override
 	public Object visitCall(CallNode node) {
 		PObject object = (PObject) visit(node.name());
-		if (object.respondTo("__call__")) {
-			if (node.argument() != null) {
-				PObject[] args = (PObject[]) visit(node.argument());
-				object = object.invoke(stack.local(), "__call__", args);
-			} else {
-				object = object.invoke(stack.local(), "__call__");
-			}
-		} else {
-			throw new IntepreterException(object.toString()
-					+ " is not callable.");
-		}
-		return object;
+		Caller caller = new Caller(module, object);
+		return caller.visit(node);
 	}
 
 	@Override
@@ -188,11 +178,7 @@ public class Interpreter extends Visitor {
 	@Override
 	public Object visitAttr(AttrNode node) {
 		PObject object = (PObject) visit(node.elements().get(0));
-		for (int n = 1; n < node.elements().size(); n++) {
-			stack.push(object);
-			object = (PObject) visit(node.elements().get(n));
-			stack.pop();
-		}
-		return object;
+		Caller caller = new Caller(module, object);
+		return caller.visit(node);
 	}
 }

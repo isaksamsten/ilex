@@ -5,8 +5,6 @@ import java.util.EnumSet;
 import parser.Parser;
 import parser.tree.Node;
 import parser.tree.plog.CallNode;
-import parser.tree.plog.ExprListNode;
-import parser.tree.plog.TermNode;
 import token.Token;
 import token.plog.ErrorCode;
 import token.plog.TokenType;

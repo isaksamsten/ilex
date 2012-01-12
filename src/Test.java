@@ -1,4 +1,3 @@
-import runtime.plog.Builtin;
 import runtime.plog.PNumber;
 import runtime.plog.PObject;
 import runtime.plog.PString;

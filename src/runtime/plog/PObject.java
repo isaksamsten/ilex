@@ -6,13 +6,11 @@ import java.util.Map;
 public class PObject implements Comparable<PObject> {
 
 	private PObject prototype;
-	private PObject bound;
-
 	private Map<String, PObject> dict = new HashMap<String, PObject>();
 
 	public PObject(String name, PObject prototype) {
 		this(prototype);
-		dict("name", new PString(name));
+		dict("__name__", new PString(name));
 	}
 
 	public PObject(String name) {
@@ -44,23 +42,9 @@ public class PObject implements Comparable<PObject> {
 		return value;
 	}
 
-	public void bind(PObject to) {
-		bound = to;
-	}
-
-	public PObject binder() {
-		return bound;
-	}
-
-	public boolean isBound() {
-		return bound != null;
-	}
-
 	public PObject invoke(PObject self, String func, PObject... args) {
 		PFunction function = (PFunction) dict(func);
-		this.bind(self);
-		PObject value = function.invoke(this, args);
-		this.bind(null);
+		PObject value = function.invoke(this, self, args);
 		return value;
 	}
 
@@ -70,7 +54,6 @@ public class PObject implements Comparable<PObject> {
 		while (proto != null) {
 			itm = proto.dict.get(str);
 			if (itm != null) {
-
 				break;
 			} else {
 				proto = proto.prototype;
@@ -81,12 +64,11 @@ public class PObject implements Comparable<PObject> {
 	}
 
 	public void func(PFunction f) {
-		f.bind(this);
 		dict.put(f.name().toString(), f);
 	}
 
 	public PObject name() {
-		return dict("name");
+		return dict("__name__");
 	}
 
 	public boolean isTrue() {
@@ -101,7 +83,7 @@ public class PObject implements Comparable<PObject> {
 	@Override
 	public String toString() {
 		try {
-			return ((PString) dict("name")).toString();
+			return ((PString) dict("__name__")).toString();
 		} catch (Exception e) {
 			return super.toString();
 		}

@@ -1,5 +1,7 @@
 package runtime.plog;
 
+import java.util.Arrays;
+
 public abstract class PFunction extends PObject {
 	private int arity;
 
@@ -7,14 +9,15 @@ public abstract class PFunction extends PObject {
 		super(name, Builtin.pfunc);
 		this.arity = arity;
 	}
-		
-	public PObject invoke(PObject self, PObject... args) {
+
+	public PObject invoke(PObject self, PObject invoker, PObject... args) {
 		if (args.length != arity && arity != -1) {
 			throw new RuntimeException(name() + "() takes exactly " + arity
 					+ " arguments (" + args.length + " given)");
 		}
-		return execute(self, args);
+		return execute(self, invoker, args);
 	}
 
-	protected abstract PObject execute(PObject self, PObject... args);
+	protected abstract PObject execute(PObject self, PObject invoker, PObject... args);
+
 }

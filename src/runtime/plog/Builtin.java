@@ -1,5 +1,7 @@
 package runtime.plog;
 
+import java.util.Arrays;
+
 public final class Builtin {
 	public static final PObject proto = new PObject("Proto");
 	public static final PObject object = new PObject("Object", proto);
@@ -17,19 +19,22 @@ public final class Builtin {
 	public static final PObject test = new PFunction("test", 0) {
 
 		@Override
-		protected PObject execute(PObject self, PObject... args) {
+		protected PObject execute(PObject self, PObject invoker,
+				PObject... args) {
 			System.out.println("Test");
 			return new PObject();
 		}
 	};
 	public static final PObject pmodule = new PObject("Module", object);
+	public static final PObject parray = new PObject("Array", object);
 
 	static {
 
 		proto.func(new PFunction("clone", 0) {
 
 			@Override
-			protected PObject execute(PObject self, PObject... args) {
+			protected PObject execute(PObject self, PObject invoker,
+					PObject... args) {
 				return new PObject(self);
 			}
 		});
@@ -37,7 +42,8 @@ public final class Builtin {
 		pbool.func(new PFunction("clone", 0) {
 
 			@Override
-			protected PObject execute(PObject self, PObject... args) {
+			protected PObject execute(PObject self, PObject invoker,
+					PObject... args) {
 				return self;
 			}
 		});
@@ -45,7 +51,8 @@ public final class Builtin {
 		number.func(new PFunction("add", 1) {
 
 			@Override
-			protected PObject execute(PObject self, PObject... args) {
+			protected PObject execute(PObject self, PObject invoker,
+					PObject... args) {
 				PNumber num = (PNumber) self;
 				return num.add((PNumber) args[0]);
 			}
@@ -54,7 +61,8 @@ public final class Builtin {
 		number.func(new PFunction("sub", 1) {
 
 			@Override
-			protected PObject execute(PObject self, PObject... args) {
+			protected PObject execute(PObject self, PObject invoker,
+					PObject... args) {
 				PNumber num = (PNumber) self;
 				return num.sub((PNumber) args[0]);
 			}
@@ -63,7 +71,8 @@ public final class Builtin {
 		number.func(new PFunction("mul", 1) {
 
 			@Override
-			protected PObject execute(PObject self, PObject... args) {
+			protected PObject execute(PObject self, PObject invoker,
+					PObject... args) {
 				PNumber num = (PNumber) self;
 				return num.mul((PNumber) args[0]);
 			}
@@ -72,7 +81,8 @@ public final class Builtin {
 		number.func(new PFunction("div", 1) {
 
 			@Override
-			protected PObject execute(PObject self, PObject... args) {
+			protected PObject execute(PObject self, PObject invoker,
+					PObject... args) {
 				PNumber num = (PNumber) self;
 				return num.div((PNumber) args[0]);
 			}
@@ -81,7 +91,8 @@ public final class Builtin {
 		number.func(new PFunction("mod", 1) {
 
 			@Override
-			protected PObject execute(PObject self, PObject... args) {
+			protected PObject execute(PObject self, PObject invoker,
+					PObject... args) {
 				PNumber num = (PNumber) self;
 				return num.mod((PNumber) args[0]);
 			}
@@ -90,7 +101,8 @@ public final class Builtin {
 		string.func(new PFunction("len", 0) {
 
 			@Override
-			protected PObject execute(PObject self, PObject... args) {
+			protected PObject execute(PObject self, PObject invoker,
+					PObject... args) {
 				return new PNumber(((PString) self).value().length());
 			}
 		});
@@ -98,7 +110,8 @@ public final class Builtin {
 		string.func(new PFunction("clone", 0) {
 
 			@Override
-			protected PObject execute(PObject self, PObject... args) {
+			protected PObject execute(PObject self, PObject invoker,
+					PObject... args) {
 				return new PString("");
 			}
 		});
@@ -106,7 +119,8 @@ public final class Builtin {
 		string.func(new PFunction("cmp", 1) {
 
 			@Override
-			protected PObject execute(PObject self, PObject... args) {
+			protected PObject execute(PObject self, PObject invoker,
+					PObject... args) {
 				PObject other = args[0].invoke(args[0], "str");
 				return new PNumber(((PString) self).value().compareTo(
 						((PString) other).value()));
@@ -116,7 +130,8 @@ public final class Builtin {
 		pfalse.func(new PFunction("true", 0) {
 
 			@Override
-			protected PObject execute(PObject self, PObject... args) {
+			protected PObject execute(PObject self, PObject invoker,
+					PObject... args) {
 				return PFalse.instance;
 			}
 		});
@@ -124,7 +139,8 @@ public final class Builtin {
 		object.func(new PFunction("true", 0) {
 
 			@Override
-			protected PObject execute(PObject self, PObject... args) {
+			protected PObject execute(PObject self, PObject invoker,
+					PObject... args) {
 				return PTrue.instance;
 			}
 		});
@@ -132,7 +148,8 @@ public final class Builtin {
 		object.func(new PFunction("cmp", 1) {
 
 			@Override
-			protected PObject execute(PObject self, PObject... args) {
+			protected PObject execute(PObject self, PObject invoker,
+					PObject... args) {
 				return new PNumber(self.compareTo(args[0]));
 			}
 		});
@@ -140,7 +157,8 @@ public final class Builtin {
 		object.func(new PFunction("str", 0) {
 
 			@Override
-			protected PObject execute(PObject self, PObject... args) {
+			protected PObject execute(PObject self, PObject invoker,
+					PObject... args) {
 				return new PString(self.toString());
 			}
 		});
@@ -148,7 +166,8 @@ public final class Builtin {
 		object.func(new PFunction("lt", 1) {
 
 			@Override
-			protected PObject execute(PObject self, PObject... args) {
+			protected PObject execute(PObject self, PObject invoker,
+					PObject... args) {
 				PNumber cmp = (PNumber) self.invoke(self, "cmp", args);
 				if (cmp.value().intValue() < 0)
 					return PTrue.instance;
@@ -160,7 +179,8 @@ public final class Builtin {
 		object.func(new PFunction("gt", 1) {
 
 			@Override
-			protected PObject execute(PObject self, PObject... args) {
+			protected PObject execute(PObject self, PObject invoker,
+					PObject... args) {
 				PNumber cmp = (PNumber) self.invoke(self, "cmp", args);
 				if (cmp.value().intValue() > 0)
 					return PTrue.instance;
@@ -172,7 +192,8 @@ public final class Builtin {
 		object.func(new PFunction("eq", 1) {
 
 			@Override
-			protected PObject execute(PObject self, PObject... args) {
+			protected PObject execute(PObject self, PObject invoker,
+					PObject... args) {
 				PNumber cmp = (PNumber) self.invoke(self, "cmp", args);
 				if (cmp.value().intValue() == 0)
 					return PTrue.instance;
@@ -184,7 +205,8 @@ public final class Builtin {
 		object.func(new PFunction("lte", 1) {
 
 			@Override
-			protected PObject execute(PObject self, PObject... args) {
+			protected PObject execute(PObject self, PObject invoker,
+					PObject... args) {
 				PNumber cmp = (PNumber) self.invoke(self, "cmp", args);
 				if (cmp.value().intValue() <= 0)
 					return PTrue.instance;
@@ -196,7 +218,8 @@ public final class Builtin {
 		object.func(new PFunction("gte", 1) {
 
 			@Override
-			protected PObject execute(PObject self, PObject... args) {
+			protected PObject execute(PObject self, PObject invoker,
+					PObject... args) {
 				PNumber cmp = (PNumber) self.invoke(self, "cmp", args);
 				if (cmp.value().intValue() >= 0)
 					return PTrue.instance;
@@ -208,7 +231,8 @@ public final class Builtin {
 		system.func(new PFunction("exit", 1) {
 
 			@Override
-			protected PObject execute(PObject self, PObject... args) {
+			protected PObject execute(PObject self, PObject invoker,
+					PObject... args) {
 				System.exit(((PNumber) args[0]).intValue());
 				return null;
 			}
@@ -217,7 +241,8 @@ public final class Builtin {
 		pmodule.func(new PFunction("str", 0) {
 
 			@Override
-			protected PObject execute(PObject self, PObject... args) {
+			protected PObject execute(PObject self, PObject invoker,
+					PObject... args) {
 				PObject file = self.dict("__file__");
 				return new PString("Module '" + file + "'");
 			}
@@ -226,9 +251,51 @@ public final class Builtin {
 		pfunc.func(new PFunction("__call__", -1) {
 
 			@Override
-			protected PObject execute(PObject self, PObject... args) {
+			protected PObject execute(PObject self, PObject invoker,
+					PObject... args) {
 				PFunction function = (PFunction) self;
-				return function.invoke(function.binder(), args);
+				return function.invoke(invoker, self, args);
+			}
+		});
+
+		parray.func(new PFunction("clone", -1) {
+
+			@Override
+			protected PObject execute(PObject self, PObject invoker,
+					PObject... args) {
+				PArray array = new PArray(args);
+				return array;
+			}
+		});
+
+		parray.func(new PFunction("get", 1) {
+
+			@Override
+			protected PObject execute(PObject self, PObject invoker,
+					PObject... args) {
+				PArray array = (PArray) self;
+				return array.get(((PNumber) args[0]).intValue());
+			}
+		});
+		
+		parray.func(new PFunction("size", 0) {
+
+			@Override
+			protected PObject execute(PObject self, PObject invoker,
+					PObject... args) {
+				PArray array = (PArray) self;
+				return new PNumber(array.size());
+			}
+		});
+
+		parray.func(new PFunction("add", 1) {
+
+			@Override
+			protected PObject execute(PObject self, PObject invoker,
+					PObject... args) {
+				PArray array = (PArray) self;
+				array.addAll(Arrays.asList(args));
+				return array;
 			}
 		});
 

@@ -23,7 +23,7 @@ public enum TokenType implements ITokenType {
 			special.put(tokens[i].text(), tokens[i]);
 		}
 
-		for (int i = READ.ordinal(); i <= END.ordinal(); i++) {
+		for (int i = READ.ordinal(); i <= DEF.ordinal(); i++) {
 			reserved.add(tokens[i].text().toLowerCase());
 		}
 	}

@@ -3,6 +3,7 @@ package interpreter.plog;
 import java.util.List;
 
 import parser.tree.Node;
+import parser.tree.plog.ArrayNode;
 import parser.tree.plog.AssignNode;
 import parser.tree.plog.AttrNode;
 import parser.tree.plog.CallNode;
@@ -61,4 +62,6 @@ public abstract class Visitor {
 	public abstract Object visitExprList(ExprListNode exprListNode);
 
 	public abstract Object visitAttr(AttrNode attrNode);
+
+	public abstract Object visitArray(ArrayNode arrayNode);
 }

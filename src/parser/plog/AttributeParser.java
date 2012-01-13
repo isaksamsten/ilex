@@ -50,6 +50,10 @@ public class AttributeParser extends Parser {
 					}
 
 				}
+			} else if (tokenizer().current().type() == TokenType.LEFT_BRACKET) {
+				ArrayParser arrp = new ArrayParser(this);
+				Node n = arrp.parse(tokenizer().current());
+				node.add(n);
 			} else {
 				node.add(ParseUtil.value(tokenizer().current()));
 				tokenizer().next();

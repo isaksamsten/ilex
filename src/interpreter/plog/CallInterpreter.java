@@ -2,6 +2,7 @@ package interpreter.plog;
 
 import parser.tree.plog.AttrNode;
 import parser.tree.plog.CallNode;
+import parser.tree.plog.LookupVarNode;
 import parser.tree.plog.VarNode;
 import runtime.plog.PModule;
 import runtime.plog.PObject;
@@ -15,6 +16,16 @@ public class CallInterpreter extends Interpreter {
 		super(module);
 		object = caller;
 		this.caller = caller;
+	}
+	
+	@Override
+	public Object visitLookupVar(LookupVarNode n) {
+		PObject obj = object.dict(n.var());
+		if (obj != null)
+			return obj;
+		else
+			throw new RuntimeException(n.var() + " is not in __dict__");
+
 	}
 
 	@Override

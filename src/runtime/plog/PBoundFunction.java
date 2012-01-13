@@ -2,25 +2,16 @@ package runtime.plog;
 
 public class PBoundFunction extends PObject {
 	private PFunction function;
-	
+	private PObject binder;
+
 	public PBoundFunction(PFunction func, PObject binder) {
 		this.function = func;
-		bind(binder);
-	}
-
-	@Override
-	public void bind(PObject to) {
-		// TODO Auto-generated method stub
-		super.bind(to);
+		this.binder = binder;
 	}
 
 	@Override
 	public PObject invoke(PObject self, String func, PObject... args) {
-		return super.invoke(self, func, args);
+		return function.invoke(binder, func, args);
 	}
-	
-	
-	
-	
-	
+
 }

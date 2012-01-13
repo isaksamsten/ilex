@@ -77,7 +77,7 @@ public class Ilex {
 		@Override
 		public void token(Token token) {
 			System.out
-				.format(">>> %-15s \t [line=%03d, pos=%d, text='%s', value='%s']\n",
+					.format(">>> %-15s \t [line=%03d, pos=%d, text='%s', value='%s']\n",
 							token.type(), token.line(), token.position(),
 							token.text(), token.value());
 		}
@@ -85,7 +85,7 @@ public class Ilex {
 
 	public static void main(String[] args) {
 		try {
-			 //args = new String[] { "proto.ilex" };
+			 args = new String[] { "proto.ilex" };
 
 			MessageHandler.getInstance().addParseListener(errorListener);
 			MessageHandler.getInstance().addSourceListener(sourceListener);
@@ -106,6 +106,7 @@ public class Ilex {
 			mod.dict("system", Builtin.system);
 			mod.dict("test", Builtin.test);
 			mod.dict("pfunc", Builtin.pfunc);
+			mod.dict("array", Builtin.parray);
 
 			if (arguments.size() > 0) {
 				file = arguments.get(0);

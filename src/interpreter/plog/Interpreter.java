@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import parser.tree.Node;
+import parser.tree.plog.ArrayNode;
 import parser.tree.plog.AssignNode;
 import parser.tree.plog.AttrNode;
 import parser.tree.plog.CallNode;
@@ -21,6 +22,7 @@ import parser.tree.plog.StringNode;
 import parser.tree.plog.VarNode;
 import parser.tree.plog.WhileNode;
 import parser.tree.plog.WriteNode;
+import runtime.plog.PArray;
 import runtime.plog.PModule;
 import runtime.plog.PNumber;
 import runtime.plog.PObject;
@@ -37,7 +39,7 @@ public class Interpreter extends Visitor {
 		stack = new PObjectStack(module);
 		this.module = module;
 	}
-	
+
 	public PModule module() {
 		return this.module;
 	}
@@ -79,8 +81,9 @@ public class Interpreter extends Visitor {
 		String var = ((VarNode) node.elements().get(node.elements().size() - 1))
 				.var();
 		stack.enter(var, value);
-		stack.pop();
-
+		if (node.elements().size() != 1) {
+			stack.pop();
+		}
 		return null;
 	}
 
@@ -180,5 +183,11 @@ public class Interpreter extends Visitor {
 		PObject object = (PObject) visit(node.elements().get(0));
 		CallInterpreter caller = new CallInterpreter(module, object);
 		return caller.visit(node);
+	}
+
+	@Override
+	public Object visitArray(ArrayNode arrayNode) {
+		PObject[] items = (PObject[]) visit(arrayNode.items());
+		return new PArray(items);
 	}
 }

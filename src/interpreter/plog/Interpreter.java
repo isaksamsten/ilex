@@ -33,15 +33,23 @@ public class Interpreter extends Visitor {
 	private static final Scanner in = new Scanner(System.in);
 
 	private PObjectStack stack;
-	private PModule module;
+	private PObject module;
 
-	public Interpreter(PModule module) {
+	public Interpreter(PObject module) {
 		stack = new PObjectStack(module);
 		this.module = module;
 	}
 
-	public PModule module() {
+	public Interpreter(PObjectStack stack) {
+		this.stack = stack;
+	}
+
+	public PObject module() {
 		return this.module;
+	}
+
+	public PObjectStack stack() {
+		return stack;
 	}
 
 	@Override
@@ -164,7 +172,7 @@ public class Interpreter extends Visitor {
 	@Override
 	public Object visitCall(CallNode node) {
 		PObject object = (PObject) visit(node.name());
-		CallInterpreter caller = new CallInterpreter(module, object);
+		CallInterpreter caller = new CallInterpreter(stack(), object);
 		return caller.visit(node);
 	}
 
@@ -181,7 +189,7 @@ public class Interpreter extends Visitor {
 	@Override
 	public Object visitAttr(AttrNode node) {
 		PObject object = (PObject) visit(node.elements().get(0));
-		CallInterpreter caller = new CallInterpreter(module, object);
+		CallInterpreter caller = new CallInterpreter(stack(), object);
 		return caller.visit(node);
 	}
 

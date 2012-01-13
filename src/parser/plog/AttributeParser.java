@@ -30,13 +30,19 @@ public class AttributeParser extends Parser {
 			token = tokenizer().peek();
 			Token var = tokenizer().current();
 			if (ATTR.contains(token.type())) {
+				boolean first = true;
 				while (ATTR.contains(token.type())) {
 					Node n = null;
 					if (tokenizer().peek().type() == TokenType.LEFT_PAREN) {
 						CallParser call = new CallParser(this);
 						n = call.parse(var);
 					} else if (ExpressionParser.START.contains(var.type())) {
-						n = ParseUtil.value(var);
+						if (first) {
+							n = ParseUtil.value(var);
+							first = false;
+						} else {
+							n = ParseUtil.var(var);
+						}
 					} else {
 						error(ErrorCode.INVALID_EXPR);
 					}

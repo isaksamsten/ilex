@@ -1,5 +1,6 @@
 package interpreter.plog;
 
+import interpreter.PObjectStack;
 import parser.tree.plog.AttrNode;
 import parser.tree.plog.CallNode;
 import parser.tree.plog.LookupVarNode;
@@ -12,14 +13,14 @@ public class CallInterpreter extends Interpreter {
 	private PObject object;
 	private PObject caller;
 
-	public CallInterpreter(PModule module, PObject caller) {
-		super(module);
+	public CallInterpreter(PObjectStack stack, PObject caller) {
+		super(stack);
 		object = caller;
 		this.caller = caller;
 	}
-	
+
 	@Override
-	public Object visitLookupVar(LookupVarNode n) {
+	public Object visitVar(VarNode n) {
 		PObject obj = object.dict(n.var());
 		if (obj != null)
 			return obj;
@@ -33,14 +34,14 @@ public class CallInterpreter extends Interpreter {
 		object = object.dict(((VarNode) node.name()).var());
 		if (object.respondTo("__call__")) {
 			if (node.argument() != null) {
-				Interpreter inter = new Interpreter(module());
+				Interpreter inter = new Interpreter(stack());
 				PObject[] args = (PObject[]) inter.visit(node.argument());
-				
+
 				object = object.invoke(caller, "__call__", args);
 			} else {
 				object = object.invoke(caller, "__call__");
 			}
-			
+
 			caller = object;
 		} else {
 			throw new IntepreterException(object.toString()

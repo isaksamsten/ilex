@@ -268,6 +268,16 @@ public final class Builtin {
 			}
 		});
 
+		parray.func(new PFunction("contains", 1) {
+
+			@Override
+			protected PObject execute(PObject self, PObject invoker,
+					PObject... args) {
+				PArray array = (PArray) self;
+				return PTypes.value(array.contains(args[0]));
+			}
+		});
+
 		parray.func(new PFunction("get", 1) {
 
 			@Override
@@ -277,7 +287,7 @@ public final class Builtin {
 				return array.get(((PNumber) args[0]).intValue());
 			}
 		});
-		
+
 		parray.func(new PFunction("size", 0) {
 
 			@Override

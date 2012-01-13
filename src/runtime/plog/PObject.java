@@ -76,6 +76,11 @@ public class PObject implements Comparable<PObject> {
 	}
 
 	@Override
+	public boolean equals(Object obj) {
+		return invoke(this, "eq", (PObject) obj).isTrue();
+	}
+
+	@Override
 	public int compareTo(PObject o) {
 		return hashCode() - o.hashCode();
 	}

@@ -85,7 +85,7 @@ public class Ilex {
 
 	public static void main(String[] args) {
 		try {
-			 args = new String[] { "proto.ilex" };
+//			 args = new String[] { "proto.ilex" };
 
 			MessageHandler.getInstance().addParseListener(errorListener);
 			MessageHandler.getInstance().addSourceListener(sourceListener);
